@@ -21,11 +21,30 @@
   
   .login-form > input {
     height: 50px;
-    width: 300px;
+    width: 400px;
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
+    margin-top: auto;
   }
-  
+
+  .login-span {
+    display: flex;
+    width: 70%;
+  }
+
+  .login-span > a {
+    margin-left: auto;
+    text-decoration: underline;
+  }
+
+  .login-span > a:hover {
+    text-decoration: underline;
+  }
+
+  .login-span > label {
+    margin-right: auto;
+  }
+
   #login-btn {
     height: 3rem;
     width: 14rem;
@@ -34,9 +53,22 @@
     background-color: transparent;
     color: white;
     font-size: 1.2rem;
+    margin-top: auto;
   }
 
   #login-btn:hover {
     background-color: hsl(199, 68%, 70%);
     cursor: pointer;
+  }
+
+  .login-form > p {
+    margin-top: auto;
+  }
+
+  .login-form a {
+    text-decoration: underline;
+  }
+
+  .login-form a:hover {
+    text-decoration: underline;
   }

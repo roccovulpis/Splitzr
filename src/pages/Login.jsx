@@ -18,6 +18,11 @@ export default function Login() {
                         <h1>Login</h1>
                         <input type="text" placeholder="username" /><br />
                         <input type="password" placeholder="password" /><br />
+                        <span className='login-span'>
+                            <input type="checkbox" className='remember' name='remember'/>
+                            <label htmlFor="remember">Remember Me</label>
+                            <a className='forgot' href="#">Forgot Password?</a>
+                        </span>
                         <button id="login-btn">Login</button>
                         <p class="message">Not registered? <a href="#">Create an account</a></p>
                     </form>
