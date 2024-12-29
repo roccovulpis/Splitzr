@@ -1,11 +1,9 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
-import '../index.css'
+import '../styles/SplitBill.css'
 
 export default function SplitBill() {
   return (
     <div>
-      <Navbar />
       <div id='panels-container'>
         <div id='entry-panel'>
             <h1>Enter Details</h1>

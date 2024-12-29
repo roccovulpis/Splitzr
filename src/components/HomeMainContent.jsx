@@ -1,6 +1,6 @@
 import React from 'react'
 import tableImg from '../assets/people-at-table.jpg'
-import '../index.css'
+import '../styles/Home.css'
 
 export default function HomeMainContent() {
   return (

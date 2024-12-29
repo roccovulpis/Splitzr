@@ -1,14 +1,14 @@
 import React from 'react'
 import Waves from '../components/Waves'
-import Navbar from '../components/Navbar'
 import HomeMainContent from '../components/HomeMainContent'
 import Footer from '../components/Footer'
+import '../styles/Home.css'
+import '../styles/index.css'
 
 export default function Home() {
   return (
     <>
         <Waves />
-        <Navbar />
         <HomeMainContent />
         <Footer />
     </>
