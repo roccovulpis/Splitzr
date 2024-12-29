@@ -7,7 +7,7 @@ export default function HomeMainContent() {
     <div id="home-main-container">
         <div id="home-header-container">
             <h1 id="home-header">Splitzr</h1>
-            <h2 id="home-header-desc">Splitting Your Bills Just Became Effortless With Splitzr!</h2>
+            <h2 id="home-header-desc">Splitting Your Tabs Just Became Effortless With Splitzr!</h2>
             <button id="home-split-btn">Start Splitting Now</button>
         </div>
         <div id="home-img-container">

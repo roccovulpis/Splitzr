@@ -1,12 +1,13 @@
 import Home from './pages/Home'
 import './index.css'
+import SplitBill from './pages/SplitBill'
 
 function App() {
 
 
   return (
     <>
-      <Home />
+      <SplitBill />
     </>
   )
 }
