@@ -1,4 +1,5 @@
 import React from 'react'
+import EventForm from '../components/EventForm'
 import '../styles/SplitBill.css'
 
 export default function SplitBill() {
@@ -7,15 +8,9 @@ export default function SplitBill() {
       <div id='panels-container'>
         <div id='entry-panel'>
             <h1>Enter Details</h1>
-            <form action="">
-                <label htmlFor="event-name">Event</label>
-                <input type="text" id='event-name' name='event-name' /><br />
-                <label htmlFor="date">Date</label>
-                <input type="date" id='date' name='date'/><br />
-                <label htmlFor="total">Total</label>
-                <input type="number" name="total" id="total" />
-            </form>
+            <EventForm />
         </div>
+        
         <div id='review-panel'>
             <h1>Review</h1>
         </div>

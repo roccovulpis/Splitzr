@@ -1,8 +1,8 @@
 /* Footer Styling */
 footer {
-    display: flex;
-    position: absolute;
-    bottom: 1rem;
-    width: 100%;
-    font-family: "Quicksand", serif;
-  }
+  display: flex;
+  position: absolute;
+  bottom: 1rem;
+  width: 100%;
+  font-family: "Quicksand", serif;
+}
