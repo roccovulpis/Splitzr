@@ -1,12 +1,10 @@
 /* Bill Splitter Styles */
 #panels-container {
-  border: 2px solid black;
   display: flex;
   height: 50vh;
 }
 
 #entry-panel {
-  border: 2px solid blue;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +13,6 @@
 }
 
 #review-panel {
-  border: 2px solid blue;
   display: flex;
   flex-direction: column;
   align-items: center;
