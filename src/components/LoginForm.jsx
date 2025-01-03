@@ -1,6 +1,7 @@
 import React from 'react'
 import '../styles/Login.css'
 import { Link } from 'react-router-dom'
+import { FaLock } from "react-icons/fa";
 
 export default function LoginForm() {
     return (
@@ -8,10 +9,10 @@ export default function LoginForm() {
             <form className="login-form">
                 <h1>Login</h1>
                 <input type="text" placeholder="Username" /><br />
-                <input type="password" placeholder="Password" /><br />
+                <input  className="pass-input" type="password" placeholder="Password" /><br />
                 <span className='login-span'>
                     <input type="checkbox" className='remember' name='remember' />
-                    <label htmlFor="remember">Remember Me</label>
+                    <label className='remember-label' htmlFor="remember">Remember Me</label>
                     <a className='forgot' href="#">Forgot Password?</a>
                 </span>
                 <button id="login-btn">Login</button>

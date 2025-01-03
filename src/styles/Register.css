@@ -29,6 +29,20 @@
     padding-left: 1rem;
 }
 
+.register-form .name-fields {
+    display: flex;
+    height: 50px;
+    width: 83%;
+}
+
+.name-fields>input {
+    flex: 1;
+    padding-left: 1rem;
+    height: 50px;
+    border-radius: 30px;
+    font-size: 1.5rem;
+}
+
 #create-btn {
     height: 3rem;
     width: 14rem;

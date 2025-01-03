@@ -29,9 +29,26 @@
   padding-left: 1rem;
 }
 
+.login-form>input.pass-input {
+  margin-top: 1.5rem;
+}
+
+.login-form>span>input.remember {
+  height: 1rem;
+  width: 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
 .login-span {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 80%;
+}
+
+.remember-label {
+  margin-left: 0;
 }
 
 .login-span>a {
