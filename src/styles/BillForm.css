@@ -10,6 +10,7 @@ input {
 .event-details-container {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .event-items-container {
@@ -38,11 +39,12 @@ input {
     padding: 0; 
     margin: 0; 
     list-style: none; 
+    align-items: center;
 }
 
 .event-form-container > ol li {
     display: flex;
-    width: 100%;
+    width: 80%;
     height: 30%; 
     background-color: white;
     color: black;

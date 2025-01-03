@@ -2,10 +2,21 @@ import React, { useState } from 'react';
 import '../styles/BillForm.css';
 
 export default function BillForm() {
+
+  const [event, setEvent] = useState('');
+  const [eventDate, setEventDate] = useState('');
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
   const [itemPrice, setItemPrice] = useState();
   const [quantity, setQuantity] = useState();
+
+  function handleEventInputChange(event) {
+    setEvent(event.target.value);
+  }
+
+  function handleEventDateInputChange(event) {
+    setEventDate(event.target.value);
+  }
 
   function handleItemInputChange(event) {
     setNewItem(event.target.value);
@@ -17,6 +28,12 @@ export default function BillForm() {
 
   function handleQuantityInputChange(event) {
     setQuantity(event.target.value);
+  }
+
+  function addEvent() {
+    if (newItem.trim() !== '') {
+      
+    }
   }
 
   function addItem() {
@@ -56,6 +73,9 @@ export default function BillForm() {
       <div className="event-details-container">
         <input type="text" id="event-name" placeholder="Event Name" />
         <input type="date" id="date" placeholder="date" />
+        <button className="add-btn" onClick={addEvent}>
+          ✔️
+        </button>
       </div>
 
       <div className="event-items-container">
