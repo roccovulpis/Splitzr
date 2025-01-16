@@ -32,7 +32,7 @@ export default function BillForm() {
 
   function addEvent() {
     if (newItem.trim() !== '') {
-      
+
     }
   }
 
@@ -105,11 +105,11 @@ export default function BillForm() {
         </button>
       </div>
 
-      <ol>
+      <ol className='added-items'>
         {items.map((item, index) => (
           <li key={index}>
             <span className="text">
-            {item.quantity} x {item.name} - ${item.price}
+              {item.quantity} x {item.name} - ${item.price}
             </span>
             <input
               type="number"
