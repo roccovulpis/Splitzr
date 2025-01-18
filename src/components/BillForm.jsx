@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/BillForm.css';
+import { GiOyster } from 'react-icons/gi';
 
 export default function BillForm() {
 
@@ -9,6 +10,7 @@ export default function BillForm() {
   const [newItem, setNewItem] = useState('');
   const [itemPrice, setItemPrice] = useState();
   const [quantity, setQuantity] = useState();
+  const [total, setTotal] = useState(0);
 
   function handleEventInputChange(event) {
     setEvent(event.target.value);
@@ -35,19 +37,24 @@ export default function BillForm() {
 
     }
   }
-
+  
   function addItem() {
     if (newItem.trim() !== '') {
+      const price = parseFloat(itemPrice) || 0; 
+      const qty = parseInt(quantity, 10) || 0;
+  
       setItems((prevItems) => [
         ...prevItems,
-        { name: newItem, price: itemPrice, quantity: quantity },
+        { name: newItem, price, quantity: qty },
       ]);
+  
+      setTotal((prevTotal) => prevTotal + price * qty); 
       setNewItem('');
-      setItemPrice('');
+      setItemPrice(''); 
       setQuantity('');
     }
   }
-
+  
   function updateQuantity(index, value) {
     setItems((prevItems) =>
       prevItems.map((item, i) =>
@@ -109,18 +116,21 @@ export default function BillForm() {
         {items.map((item, index) => (
           <li key={index}>
             <span className="text">
-              {item.quantity} x {item.name} - ${item.price}
+              <input
+                id='quantity-input'
+                type="number"
+                placeholder="Quantity"
+                value={item.quantity}
+                onChange={(e) => updateQuantity(index, e.target.value)}
+              />
+              x {item.name} - ${item.price}
             </span>
-            <input
-              type="number"
-              placeholder="Quantity"
-              value={item.quantity}
-              onChange={(e) => updateQuantity(index, e.target.value)}
-            />
+
+          
             <input
               type="number"
               placeholder="Price"
-              value={item.price}
+              value={item.price * item.quantity}
               onChange={(e) => updatePrice(index, e.target.value)}
             />
             <button
@@ -132,6 +142,7 @@ export default function BillForm() {
           </li>
         ))}
       </ol>
+      <h3>Total: {total}</h3>
     </div>
   );
 }

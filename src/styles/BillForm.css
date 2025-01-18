@@ -10,22 +10,28 @@
 
 .added-items {
     overflow-y: scroll;
+   
 }
 
 .added-items::-webkit-scrollbar {
-    width: 10px; /* Width of the scrollbar */
+    width: 10px; 
 }
 
 .added-items::-webkit-scrollbar-track {
-    background: #f4f4f4; /* Track color */
-    border-radius: 10px; /* Rounded corners */
+    background: #f4f4f4; 
+    border-radius: 10px; 
 }
 
 .added-items::-webkit-scrollbar-thumb {
-    background-color: #888; /* Thumb color */
-    border-radius: 10px; /* Rounded corners */
-    border: 2px solid #f4f4f4; /* Optional border around thumb */
+    background-color: #888; 
+    border-radius: 10px; 
+    border: 2px solid #f4f4f4; 
 }
+
+.added-items #quantity-input {
+    width: 10%;
+}
+
 
 input {
     height: 40px;
