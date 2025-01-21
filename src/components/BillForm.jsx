@@ -9,8 +9,10 @@ export default function BillForm() {
   const [itemPrice, setItemPrice] = useState('');
   const [quantity, setQuantity] = useState('');
   const [total, setTotal] = useState(0);
-  const [isEditingEvent, setIsEditingEvent] = useState(true); // Track if the event is being edited
+  const [isEditingEvent, setIsEditingEvent] = useState(true);
+  const [editingIndex, setEditingIndex] = useState(null);
 
+  // Event Handlers
   function handleEventInputChange(event) {
     setEvent(event.target.value);
   }
@@ -19,6 +21,7 @@ export default function BillForm() {
     setEventDate(event.target.value);
   }
 
+  // Item Input Handlers
   function handleItemInputChange(event) {
     setNewItem(event.target.value);
   }
@@ -31,58 +34,72 @@ export default function BillForm() {
     setQuantity(event.target.value);
   }
 
-  function addEvent() {
-    if (event.trim() !== '' && eventDate.trim() !== '') {
-      setIsEditingEvent(false); // Hide input fields
-    }
-  }
-
-  function editEvent() {
-    setIsEditingEvent(true); // Show input fields for editing
-  }
-
+  // Add or Update Item
   function addItem() {
-    if (newItem.trim() !== '') {
-      const price = parseFloat(itemPrice) || 0;
-      const qty = parseInt(quantity, 10) || 0;
+    const unitPrice = parseFloat(itemPrice) || 0;
+    const qty = parseInt(quantity, 10) || 0;
 
-      setItems((prevItems) => [
-        ...prevItems,
-        { name: newItem, price, quantity: qty },
-      ]);
+    if (newItem.trim() !== '' && unitPrice > 0 && qty > 0) {
+      if (editingIndex !== null) {
+        // Update the existing item
+        setItems((prevItems) =>
+          prevItems.map((item, index) =>
+            index === editingIndex
+              ? { ...item, name: newItem, unitPrice, price: unitPrice * qty, quantity: qty }
+              : item
+          )
+        );
+        setEditingIndex(null); // Exit edit mode
+      } else {
+        // Add a new item
+        const newItemObject = {
+          name: newItem,
+          unitPrice,
+          price: unitPrice * qty,
+          quantity: qty,
+        };
+        setItems((prevItems) => [...prevItems, newItemObject]);
+      }
 
-      setTotal((prevTotal) => prevTotal + price * qty);
-      setNewItem('');
-      setItemPrice('');
-      setQuantity('');
+      resetInputs(); // Reset input fields
     }
   }
 
-  function updateQuantity(index, value) {
-    setItems((prevItems) =>
-      prevItems.map((item, i) =>
-        i === index ? { ...item, quantity: parseInt(value, 10) || 0 } : item
-      )
-    );
+  // Update Total after items state changes
+  React.useEffect(() => {
+    const newTotal = items.reduce((sum, item) => sum + item.price, 0);
+    setTotal(newTotal);
+  }, [items]);
+
+  // Start Editing an Item
+  function startEditItem(index) {
+    const itemToEdit = items[index];
+    setNewItem(itemToEdit.name);
+    setItemPrice(itemToEdit.unitPrice.toFixed(2));
+    setQuantity(itemToEdit.quantity);
+    setEditingIndex(index);
   }
 
-  function updatePrice(index, value) {
-    setItems((prevItems) =>
-      prevItems.map((item, i) =>
-        i === index ? { ...item, price: parseFloat(value) || 0 } : item
-      )
-    );
+  // Cancel Editing Mode
+  function cancelEdit() {
+    resetInputs();
+    setEditingIndex(null);
   }
 
+  // Remove an Item
   function removeItem(index) {
-    const removedItem = items[index];
-    setTotal((prevTotal) => prevTotal - removedItem.price * removedItem.quantity);
     setItems((prevItems) => prevItems.filter((_, i) => i !== index));
+  }
+
+  // Reset Input Fields
+  function resetInputs() {
+    setNewItem('');
+    setItemPrice('');
+    setQuantity('');
   }
 
   return (
     <div className="event-form-container">
-      {/* Event Details */}
       {isEditingEvent ? (
         <div className="event-details-container">
           <input
@@ -98,7 +115,7 @@ export default function BillForm() {
             value={eventDate}
             onChange={handleEventDateInputChange}
           />
-          <button className="add-btn" onClick={addEvent}>
+          <button className="add-btn" onClick={() => setIsEditingEvent(false)}>
             ✔️
           </button>
         </div>
@@ -107,13 +124,12 @@ export default function BillForm() {
           <h2>
             Event: {event} (Date: {eventDate})
           </h2>
-          <button className="event-edit-btn" onClick={editEvent}>
+          <button className="event-edit-btn" onClick={() => setIsEditingEvent(true)}>
             ✏️
           </button>
         </div>
       )}
 
-      {/* Item Details */}
       <div className="event-items-container">
         <input
           className="item-input"
@@ -137,43 +153,37 @@ export default function BillForm() {
           onChange={handleQuantityInputChange}
         />
         <button className="add-btn" onClick={addItem}>
-          ✔️
+          {editingIndex !== null ? 'Update' : 'Add'}
         </button>
+        {editingIndex !== null && (
+          <button className="cancel-btn" onClick={cancelEdit}>
+            Cancel
+          </button>
+        )}
       </div>
 
-      {/* Display Items */}
-      <ol className="added-items">
-        {items.map((item, index) => (
-          <li key={index} className='added-list-items'>
-            <span className="text">
-              <input
-                className='added-items-quant-input'
-                type="number"
-                placeholder="Quantity"
-                value={item.quantity}
-                onChange={(e) => updateQuantity(index, e.target.value)}
-              />
-               {item.name} - ${item.price}
-            </span>
-            <input
-              className='added-items-price-input'
-              type="number"
-              placeholder="Price"
-              value={item.price * item.quantity}
-              onChange={(e) => updatePrice(index, e.target.value)}
-            />
-            <button
-              className="remove-btn"
-              onClick={() => removeItem(index)}
-            >
-              ❌
-            </button>
-          </li>
-        ))}
-      </ol>
+      {/* Hide the list when editingIndex is not null */}
+      {editingIndex === null && (
+        <ol className="added-items">
+          {items.map((item, index) => (
+            <li key={index} className="added-list-items">
+              <div className="text">
+                <span>{item.quantity} x</span>
+                <span>{item.name}</span>
+                <span className="added-item-price">${item.price.toFixed(2)}</span>
+              </div>
+              <button className="added-item-edit-btn" onClick={() => startEditItem(index)}>
+                ✏️
+              </button>
+              <button className="remove-btn" onClick={() => removeItem(index)}>
+                ❌
+              </button>
+            </li>
+          ))}
+        </ol>
+      )}
 
-      {/* Display Total */}
-      <h3 className="total-display">Total: ${total}</h3>
+      <h3 className="total-display">Total: ${total.toFixed(2)}</h3>
     </div>
   );
 }
