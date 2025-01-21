@@ -4,6 +4,7 @@ import Register from './pages/Register'
 import SplitBill from './pages/SplitBill'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/split-bill" element={<SplitBill />} />
           <Route path="/register" element={<Register />} />
         </Routes>
+      <Footer />
       </Router>
     </>
   )

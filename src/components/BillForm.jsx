@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import '../styles/BillForm.css';
-import { GiOyster } from 'react-icons/gi';
 
 export default function BillForm() {
-
   const [event, setEvent] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
-  const [itemPrice, setItemPrice] = useState();
-  const [quantity, setQuantity] = useState();
+  const [itemPrice, setItemPrice] = useState('');
+  const [quantity, setQuantity] = useState('');
   const [total, setTotal] = useState(0);
+  const [isEditingEvent, setIsEditingEvent] = useState(true); // Track if the event is being edited
 
   function handleEventInputChange(event) {
     setEvent(event.target.value);
@@ -33,32 +32,36 @@ export default function BillForm() {
   }
 
   function addEvent() {
-    if (newItem.trim() !== '') {
-
+    if (event.trim() !== '' && eventDate.trim() !== '') {
+      setIsEditingEvent(false); // Hide input fields
     }
   }
-  
+
+  function editEvent() {
+    setIsEditingEvent(true); // Show input fields for editing
+  }
+
   function addItem() {
     if (newItem.trim() !== '') {
-      const price = parseFloat(itemPrice) || 0; 
+      const price = parseFloat(itemPrice) || 0;
       const qty = parseInt(quantity, 10) || 0;
-  
+
       setItems((prevItems) => [
         ...prevItems,
         { name: newItem, price, quantity: qty },
       ]);
-  
-      setTotal((prevTotal) => prevTotal + price * qty); 
+
+      setTotal((prevTotal) => prevTotal + price * qty);
       setNewItem('');
-      setItemPrice(''); 
+      setItemPrice('');
       setQuantity('');
     }
   }
-  
+
   function updateQuantity(index, value) {
     setItems((prevItems) =>
       prevItems.map((item, i) =>
-        i === index ? { ...item, quantity: value } : item
+        i === index ? { ...item, quantity: parseInt(value, 10) || 0 } : item
       )
     );
   }
@@ -66,42 +69,68 @@ export default function BillForm() {
   function updatePrice(index, value) {
     setItems((prevItems) =>
       prevItems.map((item, i) =>
-        i === index ? { ...item, price: value } : item
+        i === index ? { ...item, price: parseFloat(value) || 0 } : item
       )
     );
   }
 
   function removeItem(index) {
+    const removedItem = items[index];
+    setTotal((prevTotal) => prevTotal - removedItem.price * removedItem.quantity);
     setItems((prevItems) => prevItems.filter((_, i) => i !== index));
   }
 
   return (
     <div className="event-form-container">
-      <div className="event-details-container">
-        <input type="text" id="event-name" placeholder="Event Name" />
-        <input type="date" id="date" placeholder="date" />
-        <button className="add-btn" onClick={addEvent}>
-          ✔️
-        </button>
-      </div>
+      {/* Event Details */}
+      {isEditingEvent ? (
+        <div className="event-details-container">
+          <input
+            type="text"
+            id="event-name"
+            placeholder="Event Name"
+            value={event}
+            onChange={handleEventInputChange}
+          />
+          <input
+            type="date"
+            id="date"
+            value={eventDate}
+            onChange={handleEventDateInputChange}
+          />
+          <button className="add-btn" onClick={addEvent}>
+            ✔️
+          </button>
+        </div>
+      ) : (
+        <div className="event-summary">
+          <h2>
+            Event: {event} (Date: {eventDate})
+          </h2>
+          <button className="event-edit-btn" onClick={editEvent}>
+            ✏️
+          </button>
+        </div>
+      )}
 
+      {/* Item Details */}
       <div className="event-items-container">
         <input
-          id="item-input"
+          className="item-input"
           type="text"
           placeholder="Item"
           value={newItem}
           onChange={handleItemInputChange}
         />
         <input
-          id="price-input"
+          className="price-input"
           type="number"
           placeholder="Price"
           value={itemPrice}
           onChange={handlePriceInputChange}
         />
         <input
-          id="quantity-input"
+          className="quantity-input"
           type="number"
           placeholder="Quantity"
           value={quantity}
@@ -112,22 +141,22 @@ export default function BillForm() {
         </button>
       </div>
 
-      <ol className='added-items'>
+      {/* Display Items */}
+      <ol className="added-items">
         {items.map((item, index) => (
-          <li key={index}>
+          <li key={index} className='added-list-items'>
             <span className="text">
               <input
-                id='quantity-input'
+                className='added-items-quant-input'
                 type="number"
                 placeholder="Quantity"
                 value={item.quantity}
                 onChange={(e) => updateQuantity(index, e.target.value)}
               />
-              x {item.name} - ${item.price}
+               {item.name} - ${item.price}
             </span>
-
-          
             <input
+              className='added-items-price-input'
               type="number"
               placeholder="Price"
               value={item.price * item.quantity}
@@ -142,7 +171,9 @@ export default function BillForm() {
           </li>
         ))}
       </ol>
-      <h3>Total: {total}</h3>
+
+      {/* Display Total */}
+      <h3 className="total-display">Total: ${total}</h3>
     </div>
   );
 }

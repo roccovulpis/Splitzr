@@ -5,12 +5,13 @@
     display: flex;
     flex-direction: column;
     min-height: 650px;
-    
+    justify-content: center;
+    align-items: center;
 }
 
 .added-items {
     overflow-y: scroll;
-   
+    width: 100%;
 }
 
 .added-items::-webkit-scrollbar {
@@ -28,10 +29,15 @@
     border: 2px solid #f4f4f4; 
 }
 
-.added-items #quantity-input {
-    width: 10%;
+.added-items .added-items-quant-input {
+    width: 30px;
 }
 
+.added-items .added-items-price-input {
+    display: flex;
+    width: 100px;
+    margin-left: auto;
+}
 
 input {
     height: 40px;
@@ -46,6 +52,19 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+}
+
+.event-details-container input {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 5px;
+    margin: 0.5rem;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
 }
 
 .event-items-container {
@@ -95,6 +114,32 @@ input {
    margin-left:auto ;
 }
 
+.event-summary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+    width: 70%;
+    min-width: 350px;
+    padding: .2rem;
+    color: black;
+    flex-wrap: wrap;
+}
+
+.event-summary > h2 {
+    font-weight: 400;
+}
+
+.event-edit-btn {
+    height: 40px;
+    width: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none; 
+    margin-left: 1rem;
+}
+
 .add-btn {
     height: 40px;
     width: 40px;
@@ -109,4 +154,10 @@ input {
     border-radius: 10px;
     cursor: pointer;
     border: none;
+}
+
+.total-display {
+    display: flex;
+    margin-top: auto;
+    justify-content: center;
 }

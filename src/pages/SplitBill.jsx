@@ -10,10 +10,6 @@ export default function SplitBill() {
             <h1>Enter Details</h1>
             <BillForm />
         </div>
-        
-        <div id='review-panel'>
-            <h1>Review</h1>
-        </div>
       </div>
     </div>
   )
