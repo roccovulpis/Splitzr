@@ -2,57 +2,69 @@
 .form {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-top: 5rem;
+    padding: 1rem;
 }
 
 .register-form {
     border: 5px solid white;
-    border-radius: 5px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 30%;
-    height: 60vh;
+    width: 100%;
+    max-width: 600px;
+    padding: 2rem;
+    box-sizing: border-box; 
+    background-color: transparent; 
 }
 
-.register-form>h1 {
-    font-size: 3rem;
+.register-form > h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
 }
 
-.register-form>input {
+.register-form > input {
     height: 50px;
-    width: 80%;
+    width: 80%; 
     border: none;
     border-radius: 30px;
-    margin-top: auto;
+    margin-bottom: 1rem; 
     font-size: 1.5rem;
     padding-left: 1rem;
+    box-sizing: border-box; 
 }
 
-.register-form .name-fields {
+.register-form .name-input {
     display: flex;
-    height: 50px;
-    width: 83%;
+    justify-content: space-between; 
+    width: 80%; 
+    gap: 10px; 
+    margin-bottom: 1rem; 
+    box-sizing: border-box; 
 }
 
-.name-fields>input {
-    flex: 1;
+.name-input > input {
+    width: calc(50% - 5px); 
     padding-left: 1rem;
     height: 50px;
+    border: none;
     border-radius: 30px;
     font-size: 1.5rem;
+    box-sizing: border-box; 
 }
 
 #create-btn {
-    height: 3rem;
-    width: 14rem;
-    border-radius: 5px;
-    border: 2px solid white;
-    background-color: transparent;
-    color: white;
-    font-size: 1.2rem;
-    margin-top: auto;
-    transition: background-color 0.5s ease;
+height: 3rem;
+  width: 14rem;
+  border-radius: 5px;
+  border: 2px solid white;
+  background-color: transparent;
+  color: white;
+  font-size: 1.2rem;
+  margin-top: auto;
+  transition: background-color 0.5s ease;
 }
 
 #create-btn:hover {
@@ -62,8 +74,17 @@
 
 .register-form a {
     text-decoration: underline;
+    color: #007bff;
+    font-weight: bold;
 }
 
 .register-form a:hover {
-    text-decoration: underline;
+    text-decoration: none;
+}
+
+.register-form .message {
+    margin-top: 1rem;
+    font-size: 1rem;
+    text-align: center;
+    color: white;
 }
