@@ -80,7 +80,7 @@ a:hover {
 
 .logout-modal {
   position: fixed;
-  top: 30%;
+  top: 8rem;
   left: 50%;
   transform: translate(-50%, -50%);
   background: white;
