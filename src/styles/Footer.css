@@ -1,8 +1,12 @@
 /* Footer Styling */
 footer {
   display: flex;
-  position: absolute;
-  bottom: 1rem;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   font-family: "Quicksand", serif;
+  padding: 1rem 0;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  margin-top: auto; 
 }

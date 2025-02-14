@@ -1,0 +1,15 @@
+/* Features Section */
+#features-container {
+    max-width: 800px;
+    text-align: center;
+    margin: 3rem auto;
+    backdrop-filter: blur(10px);
+  }
+  
+  .feature {
+    margin: 1.5rem 0;
+  }
+  
+  .feature h3 {
+    color: hsl(199, 68%, 50%);
+  }

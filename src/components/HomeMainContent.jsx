@@ -15,5 +15,5 @@ export default function HomeMainContent() {
             <img src={tableImg} alt="People sitting at the table" />
         </div>
     </div>
-  )
+  );
 }

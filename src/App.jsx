@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import SplitBill from './pages/SplitBill';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import SplitBill from "./pages/SplitBill";
+import Navbar from "./components/Navbar";
+
 
 // Protected Route Component
 const PrivateRoute = ({ element }) => {
@@ -30,16 +30,22 @@ function App() {
 
   return (
     <Router>
-      <Navbar isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
-        <Route path="/register" element={<Register setIsAuthenticated={setIsAuthenticated} />} />
-        <Route path="/split-bill" element={<PrivateRoute element={<SplitBill />} />} />
-      </Routes>
-      <Footer />
+      <div id="app-container"> {/* Full Page Wrapper */}
+        <Navbar isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
+        
+        <div id="content"> {/* This grows and keeps footer at bottom */}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+            <Route path="/register" element={<Register setIsAuthenticated={setIsAuthenticated} />} />
+            <Route path="/split-bill" element={<PrivateRoute element={<SplitBill />} />} />
+          </Routes>
+        </div>
+
+      </div>
     </Router>
   );
 }
 
 export default App;
+

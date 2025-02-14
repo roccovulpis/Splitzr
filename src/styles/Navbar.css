@@ -5,10 +5,13 @@ nav {
   margin: none;
   height: 100%;
   padding: .5rem;
+  position: sticky;
+  top: 0px;
+  backdrop-filter: blur(10px);
   align-items: center;
   font-size: 1.2rem;
   border-bottom: 2px solid white;
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
   font-family: "Quicksand", serif;
 }
 

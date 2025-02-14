@@ -1,0 +1,15 @@
+/* How It Works Section */
+#how-it-works-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    margin: 2rem auto;
+  }
+  
+  #how-it-works-container ol {
+    list-style-type: decimal;
+    line-height: 2rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
