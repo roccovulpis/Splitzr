@@ -1,12 +1,44 @@
-/* Footer Styling */
+/* Footer Styles */
 footer {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
   width: 100%;
-  font-family: "Quicksand", serif;
-  padding: 1rem 0;
-  background: rgba(0, 0, 0, 0.3);
-  color: white;
-  margin-top: auto; 
+}
+
+.footer-content-container {
+  width: 60%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+/* Fixes icon alignment with text */
+.footer-content-container p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  line-height: 1; 
+}
+
+/* Logo Styles */
+#react-logo,
+#express-logo,
+#vercel-logo,
+#mongo-logo {
+  height: 20px;
+  width: auto;
+  vertical-align: middle; 
+  display: inline-block; 
+  margin-left: 5px;
+}
+
+/* Adjust Vercel Logo Separately */
+#vercel-logo {
+  width: 50px; 
+  height: auto;
 }
