@@ -2,14 +2,29 @@
 #how-it-works-container {
     display: flex;
     flex-direction: column;
-    text-align: center;
-    align-items: center;
-    margin: 2rem auto;
+    text-align: left;
+    margin-top: -20px;
   }
   
   #how-it-works-container ol {
     list-style-type: decimal;
     line-height: 2rem;
-    align-items: flex-start;
-    justify-content: flex-start;
+    padding-left: 1.5rem; 
+    margin-left: 0; 
+    margin-top: -10px;
+}
+
+@media (max-width: 768px) {
+  #how-it-works-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-top: 0;
   }
+  #how-it-works-container ol {
+    list-style-type: decimal;
+    line-height: 2rem;
+    text-align: left;
+    line-height: 2rem;
+}
+}

@@ -16,7 +16,6 @@ export default function Home() {
       <hr />
       <div className='middle-content'>
         <HomeFeatureHighlights />
-        <HomeHowItWorks />
       </div>
       <HomeTestimonials />
       <hr />
