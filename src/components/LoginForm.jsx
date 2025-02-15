@@ -52,10 +52,10 @@ export default function LoginForm({ setIsAuthenticated }) {
 
       setSuccessMessage("Login successful! Redirecting...");
 
-      // Wait 2 seconds before redirecting
+      // Wait 1 second before redirecting
       setTimeout(() => {
         navigate("/");
-      }, 2000);
+      }, 1000);
 
     } catch (error) {
       console.error("🔴 Login error:", error);

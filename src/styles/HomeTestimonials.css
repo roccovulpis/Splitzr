@@ -24,7 +24,17 @@
       padding: 1rem;
       margin: 2rem auto;
       width: 100%;
-      max-width: 600px;
+      max-width: 500px;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 600px) {
+    #testimonials-container {
+      padding: 1rem;
+      margin: 2rem auto;
+      width: 100%;
+      max-width: 400px;
       text-align: center;
     }
   }

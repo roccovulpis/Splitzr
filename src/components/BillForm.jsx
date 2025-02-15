@@ -124,7 +124,7 @@ export default function BillForm() {
           <h2>
             Event: {event} (Date: {eventDate})
           </h2>
-          <button className="event-edit-btn" onClick={() => setIsEditingEvent(true)}>
+          <button className="event-form-edit-btn" onClick={() => setIsEditingEvent(true)}>
             ✏️
           </button>
         </div>
@@ -153,7 +153,7 @@ export default function BillForm() {
           onChange={handleQuantityInputChange}
         />
         <button className="add-btn" onClick={addItem}>
-          {editingIndex !== null ? 'Update' : 'Add'}
+          {editingIndex !== null ? '✔️' : 'Add'}
         </button>
         {editingIndex !== null && (
           <button className="cancel-btn" onClick={cancelEdit}>

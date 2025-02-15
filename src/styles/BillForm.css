@@ -121,6 +121,7 @@
   }
   
   .event-edit-btn,
+  .added-item-edit-btn,
   .add-btn,
   .remove-btn {
     height: 40px;
@@ -130,6 +131,10 @@
     border: none;
   }
   
+  .event-form-edit-btn {
+    transform: translateX(5px);
+  } 
+   
   .total-display {
     display: flex;
     margin-top: auto;

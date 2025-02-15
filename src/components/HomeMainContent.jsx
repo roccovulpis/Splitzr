@@ -1,5 +1,4 @@
 import React from 'react'
-import tableImg from '../assets/people-at-table.jpg'
 import '../styles/Home.css'
 import { Link } from 'react-router-dom'
 import Carousel from './Carousel'

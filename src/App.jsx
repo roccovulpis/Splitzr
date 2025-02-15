@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import SplitBill from "./pages/SplitBill";
+import MyBills from "./pages/MyBills";
 import Navbar from "./components/Navbar";
 
 
@@ -39,6 +40,7 @@ function App() {
             <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
             <Route path="/register" element={<Register setIsAuthenticated={setIsAuthenticated} />} />
             <Route path="/split-bill" element={<PrivateRoute element={<SplitBill />} />} />
+            <Route path="/my-bills" element={<PrivateRoute element={<MyBills />} />} />
           </Routes>
         </div>
 
