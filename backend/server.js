@@ -8,6 +8,8 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 const app = express();
+
+// Middleware
 app.use(express.json());
 app.use(cors());
 
@@ -26,7 +28,7 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", UserSchema);
 
-// 🟢 FIX: Corrected Login Route
+// ✅ Login Route (Fixed `/api/` Prefix)
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -58,7 +60,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-
+// ✅ Registration Route (Fixed `/api/` Prefix)
 app.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -80,21 +82,27 @@ app.post("/register", async (req, res) => {
 
     console.log("✅ User registered successfully:", newUser);
     
-    // 🔹 Log response being sent to the frontend
-    console.log("🟢 Sending response:", { message: "User registered successfully", token });
-
-    return res.status(201).json({ message: "User registered successfully", token }); // Ensure token is sent
+    return res.status(201).json({ message: "User registered successfully", token }); 
   } catch (error) {
     console.error("❌ Registration error:", error);
     return res.status(500).json({ message: "Error registering user", error: error.message });
   }
 });
 
+// ✅ Test Route (For Checking If API Works)
+app.get("/test", (req, res) => {
+  res.json({ message: "API is working!" });
+});
 
+// ✅ Handle 404 for Unknown Routes
+app.use((req, res) => {
+  res.status(404).json({ error: "Not Found" });
+});
 
-
-// Start Server
+// ✅ Fix Port Handling for Vercel
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
+export default app; // Required for Vercel
