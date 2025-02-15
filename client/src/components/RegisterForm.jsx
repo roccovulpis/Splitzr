@@ -47,7 +47,10 @@ export default function RegisterForm({ setIsAuthenticated }) {
     console.log("🔵 Sending registration request:", userData);
 
     try {
+      const API_URL = "https://splitzr-backend.vercel.app/api/auth";  // ✅ Replace with your actual Vercel URL
+
       const response = await axios.post(`${API_URL}/register`, userData);
+
       
       console.log("🟢 Registration Response:", response.data); // Log full response
 

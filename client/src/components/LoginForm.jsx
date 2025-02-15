@@ -33,7 +33,10 @@ export default function LoginForm({ setIsAuthenticated }) {
     console.log("🔵 Sending login request:", formData);
 
     try {
+      const API_URL = "https://splitzr-backend.vercel.app/api/auth";  // ✅ Replace with your actual Vercel URL
+
       const response = await axios.post(`${API_URL}/login`, formData);
+
       
       console.log("🟢 Login Response:", response.data);
 
