@@ -19,6 +19,9 @@ export default function RegisterForm({ setIsAuthenticated }) {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
+  // Base API URL (change this for deployment)
+  const API_URL = "http://localhost:5000/api/auth";  // ✅ Corrected API URL
+
   // Handle input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,7 +47,7 @@ export default function RegisterForm({ setIsAuthenticated }) {
     console.log("🔵 Sending registration request:", userData);
 
     try {
-      const response = await axios.post("http://localhost:5000/register", userData);
+      const response = await axios.post(`${API_URL}/register`, userData);
       
       console.log("🟢 Registration Response:", response.data); // Log full response
 
@@ -78,7 +81,7 @@ export default function RegisterForm({ setIsAuthenticated }) {
       // Redirect to home page after delay
       setTimeout(() => {
         navigate("/");
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.error("🔴 Registration error:", error);
 

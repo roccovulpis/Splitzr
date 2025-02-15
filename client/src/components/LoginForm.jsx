@@ -15,6 +15,9 @@ export default function LoginForm({ setIsAuthenticated }) {
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // ✅ Set API URL for local & production
+  const API_URL = "http://localhost:5000/api/auth";  // ✅ Make sure this matches backend
+
   // Handle input change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,7 +33,7 @@ export default function LoginForm({ setIsAuthenticated }) {
     console.log("🔵 Sending login request:", formData);
 
     try {
-      const response = await axios.post("http://localhost:5000/login", formData);
+      const response = await axios.post(`${API_URL}/login`, formData);
       
       console.log("🟢 Login Response:", response.data);
 
