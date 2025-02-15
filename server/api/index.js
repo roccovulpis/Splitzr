@@ -19,18 +19,32 @@ connectDB(); // Connect to MongoDB
 
 const app = express();
 
-// Middleware
-app.use(express.json());
+// ✅ Fix: Middleware to Parse JSON & URL-Encoded Requests
+app.use(express.json());  // ✅ Parses incoming JSON requests
+app.use(express.urlencoded({ extended: true })); // ✅ Parses form data
+
+// ✅ Fix: CORS Configuration
+const allowedOrigins = [
+  "http://localhost:5173",  // ✅ Allow local frontend
+  "https://splitzr.vercel.app"  // ✅ Allow deployed frontend
+];
+
 app.use(
   cors({
-    origin: "https://splitzr.vercel.app",  // 
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS policy does not allow this origin."), false);
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
   })
 );
 
-// Routes
+// ✅ API Routes
 app.use("/api/auth", authRoutes);
 
 // ✅ Test Route

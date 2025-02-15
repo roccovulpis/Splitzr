@@ -15,8 +15,11 @@ export default function LoginForm({ setIsAuthenticated }) {
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // ✅ Set API URL for local & production
-  const API_URL = "http://localhost:5000/api/auth";  // ✅ Make sure this matches backend
+  // ✅ Automatically switch API URL for local & production
+  const API_URL =
+    process.env.NODE_ENV === "production"
+      ? "https://splitzr-backend.vercel.app/api/auth"
+      : "http://localhost:5000/api/auth"; // Local development
 
   // Handle input change
   const handleChange = (e) => {
@@ -30,14 +33,11 @@ export default function LoginForm({ setIsAuthenticated }) {
     setSuccessMessage("");
     setLoading(true);
 
-    console.log("🔵 Sending login request:", formData);
+    console.log("🔵 Sending login request to:", API_URL);
 
     try {
-      const API_URL = "https://splitzr-backend.vercel.app/api/auth";  // ✅ Replace with your actual Vercel URL
-
       const response = await axios.post(`${API_URL}/login`, formData);
 
-      
       console.log("🟢 Login Response:", response.data);
 
       if (!response.data.token) {
