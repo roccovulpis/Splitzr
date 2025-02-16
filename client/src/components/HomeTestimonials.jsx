@@ -9,6 +9,9 @@ export default function HomeTestimonials() {
           <p>"Splitzr made paying the bill at dinner so much easier!" - Daniel G.</p>
         </div>
         <div className="testimonial">
+          <p>"If I had a dollar for every time I've used Splitzr, I'd have a lot of dollars." - Joey D.</p>
+        </div>
+        <div className="testimonial">
           <p>"No more arguing over who owes what. Love it!" - Galo V.</p>
         </div>
       </div>

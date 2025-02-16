@@ -19,8 +19,8 @@ export default function RegisterForm({ setIsAuthenticated }) {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  // Base API URL (change this for deployment)
-  const API_URL = "http://localhost:5000/api/auth";  // ✅ Corrected API URL
+  // Base API URL (use environment variable for deployment)
+  const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api/auth";
 
   // Handle input changes
   const handleChange = (e) => {
@@ -47,10 +47,7 @@ export default function RegisterForm({ setIsAuthenticated }) {
     console.log("🔵 Sending registration request:", userData);
 
     try {
-      const API_URL = "https://splitzr-backend.vercel.app/api/auth";  // ✅ Replace with your actual Vercel URL
-
       const response = await axios.post(`${API_URL}/register`, userData);
-
       
       console.log("🟢 Registration Response:", response.data); // Log full response
 

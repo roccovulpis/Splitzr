@@ -7,11 +7,9 @@ import SplitBill from "./pages/SplitBill";
 import MyBills from "./pages/MyBills";
 import Navbar from "./components/Navbar";
 
-
-// Protected Route Component
-const PrivateRoute = ({ element }) => {
-  const token = localStorage.getItem("token");
-  return token ? element : <Navigate to="/login" />;
+// ✅ Corrected PrivateRoute to Pass Props
+const PrivateRoute = ({ children, isAuthenticated }) => {
+  return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
 function App() {
@@ -31,23 +29,36 @@ function App() {
 
   return (
     <Router>
-      <div id="app-container"> {/* Full Page Wrapper */}
+      <div id="app-container">
         <Navbar isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
-        
-        <div id="content"> {/* This grows and keeps footer at bottom */}
+
+        <div id="content">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
             <Route path="/register" element={<Register setIsAuthenticated={setIsAuthenticated} />} />
-            <Route path="/split-bill" element={<PrivateRoute element={<SplitBill />} />} />
-            <Route path="/my-bills" element={<PrivateRoute element={<MyBills />} />} />
+            <Route
+              path="/split-bill"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <SplitBill />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/my-bills"
+              element={
+                <PrivateRoute isAuthenticated={isAuthenticated}>
+                  <MyBills setIsAuthenticated={setIsAuthenticated} />
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </div>
-
       </div>
     </Router>
   );
 }
 
 export default App;
-

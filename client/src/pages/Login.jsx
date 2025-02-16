@@ -1,10 +1,8 @@
-import React from 'react'
-import '../styles/Login.css'
-import { Link } from 'react-router-dom'
-import LoginForm from '../components/LoginForm'
+import React from "react";
+import { Link } from "react-router-dom";
+import LoginForm from "../components/LoginForm";
+import "../styles/Login.css";
 
-export default function Login() {
-    return (
-        <LoginForm />
-    )
+export default function Login({ setIsAuthenticated }) {
+  return <LoginForm setIsAuthenticated={setIsAuthenticated} />;
 }

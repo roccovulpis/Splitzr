@@ -1,25 +1,22 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../styles/Login.css';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import "../styles/Login.css";
 
 export default function LoginForm({ setIsAuthenticated }) {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ✅ Automatically switch API URL for local & production
-  const API_URL =
-    process.env.NODE_ENV === "production"
-      ? "https://splitzr-backend.vercel.app/api/auth"
-      : "http://localhost:5000/api/auth"; // Local development
+  // ✅ Fix: Use Vite's `import.meta.env` instead of `process.env`
+  const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api/auth";
 
   // Handle input change
   const handleChange = (e) => {
@@ -36,7 +33,9 @@ export default function LoginForm({ setIsAuthenticated }) {
     console.log("🔵 Sending login request to:", API_URL);
 
     try {
-      const response = await axios.post(`${API_URL}/login`, formData);
+      const response = await axios.post(`${API_URL}/login`, formData, {
+        headers: { "Content-Type": "application/json" },
+      });
 
       console.log("🟢 Login Response:", response.data);
 
@@ -44,21 +43,18 @@ export default function LoginForm({ setIsAuthenticated }) {
         throw new Error("Token missing in response");
       }
 
-      // Save token to local storage
+      // ✅ Store token & update authentication state
       localStorage.setItem("token", response.data.token);
-
-      // Update authentication state
       if (typeof setIsAuthenticated === "function") {
         setIsAuthenticated(true);
       } else {
         console.error("🔴 setIsAuthenticated is not a function");
       }
 
+      // ✅ Notify other tabs about login
       window.dispatchEvent(new Event("storage"));
 
       setSuccessMessage("Login successful! Redirecting...");
-
-      // Wait 1 second before redirecting
       setTimeout(() => {
         navigate("/");
       }, 1000);
@@ -82,7 +78,7 @@ export default function LoginForm({ setIsAuthenticated }) {
   };
 
   return (
-    <div className='form'>
+    <div className="form">
       <form className="login-form" onSubmit={handleSubmit}>
         <h1>Login</h1>
 
@@ -90,35 +86,35 @@ export default function LoginForm({ setIsAuthenticated }) {
         {successMessage && <p className="success-message">{successMessage}</p>}
         {error && <p className="error-message">{error}</p>}
 
-        <input 
-          type="text" 
-          name="email" 
-          placeholder="Email" 
-          value={formData.email} 
-          onChange={handleChange} 
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
           required
         /><br />
-        
-        <input  
-          className="pass-input" 
-          type="password" 
-          name="password" 
-          placeholder="Password" 
-          value={formData.password} 
-          onChange={handleChange} 
+
+        <input
+          className="pass-input"
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
           required
         /><br />
-        
-        <span className='login-span'>
-          <input type="checkbox" className='remember' name='remember' />
-          <label className='remember-label' htmlFor="remember">Remember Me</label>
-          <a className='forgot' href="#">Forgot Password?</a>
+
+        <span className="login-span">
+          <input type="checkbox" className="remember" name="remember" />
+          <label className="remember-label" htmlFor="remember">Remember Me</label>
+          <a className="forgot" href="#">Forgot Password?</a>
         </span>
-        
+
         <button id="login-btn" type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
-        
+
         <p className="message">Not registered? <Link to={"/register"}>Create an account</Link></p>
       </form>
     </div>
