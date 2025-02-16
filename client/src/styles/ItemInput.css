@@ -1,0 +1,15 @@
+.event-items-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap: 10px; 
+}
+
+.event-items-container input {
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+    margin: 3px;
+}

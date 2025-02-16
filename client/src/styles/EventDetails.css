@@ -1,0 +1,33 @@
+.event-details-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.event-details-container input {
+    height: 40px;
+    padding: 5px;
+    margin: 0.5rem;
+    text-align: center;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    border: none;
+}
+
+.event-summary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    border-radius: 20px;
+    width: 70%;
+    min-width: 350px;
+    padding: 0.2rem;
+    
+    flex-wrap: wrap;
+}
+
+.event-summary h2 {
+    font-weight: 400;
+}
