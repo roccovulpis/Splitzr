@@ -21,10 +21,9 @@
     align-items: center;
   
     border-radius: 20px;
-    width: 70%;
+    width: 90%;
     min-width: 350px;
     padding: 0.2rem;
-    
     flex-wrap: wrap;
 }
 

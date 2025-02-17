@@ -9,7 +9,7 @@ import '../styles/BillForm.css';
 export default function BillForm() {
   const [event, setEvent] = useState('');
   const [eventDate, setEventDate] = useState('');
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([]); // Holds items added
   const [newItem, setNewItem] = useState('');
   const [itemPrice, setItemPrice] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -27,7 +27,7 @@ export default function BillForm() {
   function addItem() {
     const unitPrice = parseFloat(itemPrice) || 0;
     const qty = parseInt(quantity, 10) || 0;
-  
+
     if (newItem.trim() !== '' && unitPrice > 0 && qty > 0) {
       if (editingIndex !== null) {
         setItems((prevItems) =>
@@ -49,13 +49,23 @@ export default function BillForm() {
     setItems(items.filter((_, i) => i !== index));
   }
 
+  function startEditItem(index) {
+    const item = items[index];
+    setNewItem(item.name);
+    setItemPrice(item.unitPrice);
+    setQuantity(item.quantity);
+    setEditingIndex(index);
+  }
+
   function confirmBill() {
     setIsConfirmed(true);
+    setIsEditingEvent(false); // Disable editing for the event title
   }
 
   function editBill() {
     setIsConfirmed(false);
     setSplitOption(null);
+    setIsEditingEvent(true); // Re-enable editing
   }
 
   function handleSplitOption(option) {
@@ -76,19 +86,28 @@ export default function BillForm() {
     setPeople([...people, { name: '', amount: 0 }]);
   }
 
+  function resetInputs() {
+    setNewItem('');
+    setItemPrice('');
+    setQuantity('');
+  }
+
   return (
     <div className={`bill-container ${isConfirmed ? 'confirmed' : ''}`}>
-      <div className="bill-panel">
+      {/* Left Panel - Keeps event name & items */}
+      <div className={`bill-panel ${isConfirmed ? 'shrunk' : ''}`}>
         <EventDetails
           event={event}
           eventDate={eventDate}
           setEvent={setEvent}
           setEventDate={setEventDate}
-          isEditing={isEditingEvent}
+          isEditing={isEditingEvent && !isConfirmed}
           setIsEditing={setIsEditingEvent}
+          isConfirmed={isConfirmed}
         />
 
-        {!isConfirmed && (
+        {/* ✅ Keep original format before confirming */}
+        {!isConfirmed ? (
           <>
             <ItemInput
               newItem={newItem}
@@ -99,24 +118,32 @@ export default function BillForm() {
               handlePriceInputChange={(e) => setItemPrice(e.target.value)}
               handleQuantityInputChange={(e) => setQuantity(e.target.value)}
               addItem={addItem}
-              cancelEdit={() => setEditingIndex(null)}
+              cancelEdit={resetInputs}
             />
             {editingIndex === null && (
-              <ItemList items={items} startEditItem={setEditingIndex} removeItem={removeItem} />
+              <ItemList items={items} startEditItem={startEditItem} removeItem={removeItem} />
             )}
             <h3 className="total-display">Total: ${total.toFixed(2)}</h3>
-            <button className="confirm-btn" onClick={confirmBill}>Confirm Bill</button>
+            <button className="bill-confirm-btn" onClick={confirmBill}>Confirm Bill</button>
           </>
+        ) : (
+          // ✅ After confirming, show only event name and clean item list
+          <div className="confirmed-items">
+            <h3>Items:</h3>
+            <ItemList items={items} startEditItem={() => {}} removeItem={() => {}} hideButtons={true} />
+            <h3>Total: ${total}</h3>
+          </div>
         )}
       </div>
 
+      {/* Right Panel - Only for split options */}
       {isConfirmed && (
-        <>
+        <div className="right-panel">
           <ActionPanel editBill={editBill} handleSplitOption={handleSplitOption} />
           {splitOption === 'custom' && (
             <SplitPanel people={people} handlePersonChange={handlePersonChange} addPerson={addPerson} />
           )}
-        </>
+        </div>
       )}
     </div>
   );

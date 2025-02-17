@@ -1,4 +1,3 @@
-/* Bill Splitter Styles */
 #panels-container {
   display: flex;
   height: 90%;
@@ -8,7 +7,5 @@
 #entry-panel {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 50%;
   text-align: center;
 }

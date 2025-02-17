@@ -1,8 +1,7 @@
-import React from 'react';
+import React from 'react'
 import '../styles/EventDetails.css';
 
-
-export default function EventDetails({ event, eventDate, setEvent, setEventDate, isEditing, setIsEditing }) {
+export default function EventDetails({ event, eventDate, setEvent, setEventDate, isEditing, setIsEditing, isConfirmed }) {
   return isEditing ? (
     <div className="event-details-container">
       <input
@@ -23,7 +22,11 @@ export default function EventDetails({ event, eventDate, setEvent, setEventDate,
   ) : (
     <div className="event-summary">
       <h2>Event: {event} (Date: {eventDate})</h2>
-      <button className="event-form-edit-btn" onClick={() => setIsEditing(true)}>✏️</button>
+      
+      {/* Hide the edit button after confirmation */}
+      {!isConfirmed && (
+        <button className="event-form-edit-btn" onClick={() => setIsEditing(true)}>✏️</button>
+      )}
     </div>
   );
 }

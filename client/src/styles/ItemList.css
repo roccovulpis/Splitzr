@@ -6,6 +6,7 @@
     flex-direction: column;
     max-height: 450px;
     min-height: 400px;
+    align-items: flex-start;
 }
 
 /* Scrollbar settings */
@@ -29,14 +30,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 80%;
-    height: 2.4rem;
+    width: 90%;
     padding: 10px;
     background-color: white;
     color: black;
     border-radius: 10px;
     margin-top: 10px;
-    align-self: center;
 }
 
 /* Ensure proper spacing inside list items */
@@ -67,4 +66,8 @@
     display: flex;
     margin-left: auto;
     text-align: right;
+}
+
+.confirmed-items {
+    width: 400px;
 }
