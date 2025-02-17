@@ -47,9 +47,10 @@ function App() {
             <Route
               path="/split-bill"
               element={
-                <PrivateRoute isAuthenticated={isAuthenticated}>
-                  <SplitBill />
-                </PrivateRoute>
+                <SplitBill />
+                // <PrivateRoute isAuthenticated={isAuthenticated}>
+                //   <SplitBill />
+                // </PrivateRoute>
               }
             />
 
