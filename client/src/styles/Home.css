@@ -36,7 +36,9 @@
   background-color: transparent;
   color: white;
   font-size: 1.2rem;
-  transition: background-color 0.4s ease;
+
+  will-change: background-color;
+  transition: background-color 0.2s ease;
 }
 
 .how {
@@ -68,7 +70,9 @@
 
 hr {
   width: 90%;
+  contain: layout; 
 }
+
 
 .middle-content {
   display: flex;
@@ -78,6 +82,7 @@ hr {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto; 
+  contain: layout;
 }
 
 /* Media query for smaller screens */

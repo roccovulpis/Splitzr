@@ -1,23 +1,24 @@
-import React from 'react'
-import HomeMainContent from '../components/HomeMainContent'
-import HomeFeatureHighlights from '../components/HomeFeatureHighlights'
-import HomeHowItWorks from '../components/HomeHowItWorks'
-import HomeTestimonials from '../components/HomeTestimonials'
-import Footer from '../components/Footer'
-import '../styles/Home.css'
-import '../styles/index.css'
+import React, { lazy, Suspense } from 'react';
+
+const HomeMainContent = lazy(() => import('../components/HomeMainContent'));
+const HomeFeatureHighlights = lazy(() => import('../components/HomeFeatureHighlights'));
+const HomeHowItWorks = lazy(() => import('../components/HomeHowItWorks'));
+const HomeTestimonials = lazy(() => import('../components/HomeTestimonials'));
+const Footer = lazy(() => import('../components/Footer'));
 
 export default function Home() {
   return (
     <div>
-      <HomeMainContent />
-      <hr />
-      <div className='middle-content'>
-        <HomeFeatureHighlights />
-      </div>
-      <HomeTestimonials />
-      <hr />
-      <Footer />
+      <Suspense fallback={<div>Loading...</div>}>
+        <HomeMainContent />
+        <hr />
+        <div className="middle-content">
+          <HomeFeatureHighlights />
+        </div>
+        <HomeTestimonials />
+        <hr />
+        <Footer />
+      </Suspense>
     </div>
-  )
+  );
 }

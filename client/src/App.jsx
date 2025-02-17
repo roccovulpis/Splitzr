@@ -16,10 +16,17 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
 
   useEffect(() => {
-    const checkAuth = () => setIsAuthenticated(!!localStorage.getItem("token"));
+    const checkAuth = () => {
+      const token = !!localStorage.getItem("token");
+      if (token !== isAuthenticated) {
+        setIsAuthenticated(token); 
+      }
+    };
+  
     window.addEventListener("storage", checkAuth);
     return () => window.removeEventListener("storage", checkAuth);
-  }, []);
+  }, [isAuthenticated]);
+  
 
   const handleLogout = () => {
     localStorage.removeItem("token");
