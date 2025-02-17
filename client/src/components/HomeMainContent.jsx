@@ -9,7 +9,7 @@ export default function HomeMainContent() {
   return (
     <div id="home-main-container">
         <div id="home-header-container">
-            <h1 id="home-header"><img src={splitzrImg} alt="Splitzr Logo" />Splitzr</h1>
+            <h1 id="home-header"><img src={splitzrImg} alt="Splitzr Logo" loading="lazy" />Splitzr</h1>
             <h2 id="home-header-desc">Splitting Your Tabs Just Became Effortless With Splitzr!</h2>
             <div className='how'>
               <HomeHowItWorks />

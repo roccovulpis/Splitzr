@@ -1,5 +1,4 @@
 import React from 'react'
-import Waves from '../components/Waves'
 import HomeMainContent from '../components/HomeMainContent'
 import HomeFeatureHighlights from '../components/HomeFeatureHighlights'
 import HomeHowItWorks from '../components/HomeHowItWorks'
@@ -11,7 +10,6 @@ import '../styles/index.css'
 export default function Home() {
   return (
     <div>
-      <Waves />
       <HomeMainContent />
       <hr />
       <div className='middle-content'>
