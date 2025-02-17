@@ -52,9 +52,14 @@ export default function BillForm() {
   function startEditItem(index) {
     const item = items[index];
     setNewItem(item.name);
-    setItemPrice(item.unitPrice);
-    setQuantity(item.quantity);
+    setItemPrice(item.unitPrice.toString()); // Ensure string format for inputs
+    setQuantity(item.quantity.toString());
     setEditingIndex(index);
+  }
+
+  function cancelEdit() {
+    setEditingIndex(null); // Exit edit mode
+    resetInputs(); // Clear input fields after canceling
   }
 
   function confirmBill() {
@@ -118,7 +123,7 @@ export default function BillForm() {
               handlePriceInputChange={(e) => setItemPrice(e.target.value)}
               handleQuantityInputChange={(e) => setQuantity(e.target.value)}
               addItem={addItem}
-              cancelEdit={resetInputs}
+              cancelEdit={cancelEdit} // Use the improved cancel function
             />
             {editingIndex === null && (
               <ItemList items={items} startEditItem={startEditItem} removeItem={removeItem} />
