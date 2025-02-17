@@ -1,0 +1,33 @@
+.even-split-panel {
+    padding: 20px;
+    border-radius: 10px;
+    border: 3px solid white;
+    text-align: center;
+  }
+  
+  .even-split-panel input {
+    width: 80%;
+    height: 2rem;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+  
+  .even-split-panel button {
+    height: 3rem;
+    width: 9rem;
+    border-radius: 5px;
+    border: 2px solid white;
+    background-color: transparent;
+    color: white;
+    font-size: 1.2rem;
+    transition: background-color 0.4s ease;
+  }
+  
+  .even-split-panel button:hover {
+    background-color: hsl(199, 68%, 70%);
+    cursor: pointer;
+  }
+  

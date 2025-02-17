@@ -5,12 +5,20 @@ export default function ActionPanel({ editBill, handleSplitOption }) {
   return (
     <div className="action-panel">
       <h2>Choose How to Split</h2>
-      <span className='action-panel-btns'>
-        <button onClick={editBill}>✏️ Edit Bill</button>
-        <button onClick={() => handleSplitOption('equal')}>🔄 Split Evenly</button>
-        <button onClick={() => handleSplitOption('custom')}>👥 Assign Items Manually</button>
-      </span>
-
+      <div className='action-panel-btns'>
+        <button onClick={editBill}>
+          <span className="button-icon">✏️</span>
+          <span className="button-text">Edit Bill</span>
+        </button>
+        <button onClick={() => handleSplitOption('equal')}>
+          <span className="button-icon">🔄</span>
+          <span className="button-text">Split Evenly</span>
+        </button>
+        <button onClick={() => handleSplitOption('custom')}>
+          <span className="button-icon">👥</span>
+          <span className="button-text">Assign Items</span>
+        </button>
+      </div>
     </div>
   );
 }

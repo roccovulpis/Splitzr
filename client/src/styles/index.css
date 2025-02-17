@@ -15,8 +15,8 @@ html, body {
   /* background-color: hsl(0, 0%, 20%); */
   animation: gradient 20s ease infinite;
   background: linear-gradient(135deg, #3d466e 0%, #5281cc 100%);
-  color: #D1D5DB; /* Light gray text */
-
+  /* color: #D1D5DB;  */
+  color: white
 
 
 }

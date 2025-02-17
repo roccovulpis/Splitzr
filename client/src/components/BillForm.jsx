@@ -4,12 +4,13 @@ import ItemInput from './ItemInput';
 import ItemList from './ItemList';
 import ActionPanel from './ActionPanel';
 import SplitPanel from './SplitPanel';
+import EvenSplitPanel from './EvenSplitPanel'; // ✅ Import new component
 import '../styles/BillForm.css';
 
 export default function BillForm() {
   const [event, setEvent] = useState('');
   const [eventDate, setEventDate] = useState('');
-  const [items, setItems] = useState([]); // Holds items added
+  const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
   const [itemPrice, setItemPrice] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -52,43 +53,14 @@ export default function BillForm() {
   function startEditItem(index) {
     const item = items[index];
     setNewItem(item.name);
-    setItemPrice(item.unitPrice.toString()); // Ensure string format for inputs
+    setItemPrice(item.unitPrice.toString());
     setQuantity(item.quantity.toString());
     setEditingIndex(index);
   }
 
   function cancelEdit() {
-    setEditingIndex(null); // Exit edit mode
-    resetInputs(); // Clear input fields after canceling
-  }
-
-  function confirmBill() {
-    setIsConfirmed(true);
-    setIsEditingEvent(false); // Disable editing for the event title
-  }
-
-  function editBill() {
-    setIsConfirmed(false);
-    setSplitOption(null);
-    setIsEditingEvent(true); // Re-enable editing
-  }
-
-  function handleSplitOption(option) {
-    setSplitOption(option);
-    if (option === 'equal') {
-      const splitAmount = total / people.length;
-      setPeople(people.map((p) => ({ ...p, amount: splitAmount })));
-    }
-  }
-
-  function handlePersonChange(index, field, value) {
-    const updatedPeople = [...people];
-    updatedPeople[index][field] = field === 'amount' ? parseFloat(value) : value;
-    setPeople(updatedPeople);
-  }
-
-  function addPerson() {
-    setPeople([...people, { name: '', amount: 0 }]);
+    setEditingIndex(null);
+    resetInputs();
   }
 
   function resetInputs() {
@@ -97,9 +69,24 @@ export default function BillForm() {
     setQuantity('');
   }
 
+  function confirmBill() {
+    setIsConfirmed(true);
+    setIsEditingEvent(false);
+  }
+
+  function editBill() {
+    setIsConfirmed(false);
+    setSplitOption(null);
+    setIsEditingEvent(true);
+  }
+
+  function handleSplitOption(option) {
+    setSplitOption(option);
+  }
+
   return (
     <div className={`bill-container ${isConfirmed ? 'confirmed' : ''}`}>
-      {/* Left Panel - Keeps event name & items */}
+      {/* Left Panel */}
       <div className={`bill-panel ${isConfirmed ? 'shrunk' : ''}`}>
         <EventDetails
           event={event}
@@ -111,7 +98,6 @@ export default function BillForm() {
           isConfirmed={isConfirmed}
         />
 
-        {/* ✅ Keep original format before confirming */}
         {!isConfirmed ? (
           <>
             <ItemInput
@@ -122,32 +108,31 @@ export default function BillForm() {
               handleItemInputChange={(e) => setNewItem(e.target.value)}
               handlePriceInputChange={(e) => setItemPrice(e.target.value)}
               handleQuantityInputChange={(e) => setQuantity(e.target.value)}
-              addItem={addItem}
-              cancelEdit={cancelEdit} // Use the improved cancel function
+              addItem={addItem} // ✅ Pass addItem correctly
+              cancelEdit={cancelEdit}
             />
-            {editingIndex === null && (
-              <ItemList items={items} startEditItem={startEditItem} removeItem={removeItem} />
-            )}
+            <ItemList items={items} startEditItem={startEditItem} removeItem={removeItem} />
             <h3 className="total-display">Total: ${total.toFixed(2)}</h3>
             <button className="bill-confirm-btn" onClick={confirmBill}>Confirm Bill</button>
           </>
         ) : (
-          // ✅ After confirming, show only event name and clean item list
           <div className="confirmed-items">
             <h3>Items:</h3>
             <ItemList items={items} startEditItem={() => {}} removeItem={() => {}} hideButtons={true} />
             <h3>Total: ${total}</h3>
+            <button className="bill-confirm-btn" >Save to My Bills</button>
           </div>
         )}
       </div>
 
-      {/* Right Panel - Only for split options */}
+      {/* Right Panel - Handles split options */}
       {isConfirmed && (
         <div className="right-panel">
-          <ActionPanel editBill={editBill} handleSplitOption={handleSplitOption} />
-          {splitOption === 'custom' && (
-            <SplitPanel people={people} handlePersonChange={handlePersonChange} addPerson={addPerson} />
-          )}
+          {!splitOption && <ActionPanel editBill={editBill} handleSplitOption={handleSplitOption} />}
+
+          {splitOption === 'equal' && <EvenSplitPanel total={total} setPeople={setPeople} setSplitOption={setSplitOption} />}
+
+          {splitOption === 'custom' && <SplitPanel people={people} handlePersonChange={() => {}} addPerson={() => {}} />}
         </div>
       )}
     </div>
