@@ -7,7 +7,7 @@ export default function SplitBill() {
     <div>
       <div id='panels-container'>
         <div id='entry-panel'>
-            <h1>Enter Details</h1>
+            <h1>Details</h1>
             <BillForm />
         </div>
       </div>

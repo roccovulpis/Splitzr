@@ -1,33 +1,129 @@
+/* General Styling */
 .even-split-panel {
-    padding: 20px;
-    border-radius: 10px;
-    border: 3px solid white;
-    text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  border: 3px solid white;
+  text-align: center;
+  width: 90%; /* Allow flexibility */
+  max-width: 600px;
+  min-width: 400px;
+  transition: all 0.5s ease-in-out;
+  margin: auto;
+}
+
+/* Expanding Effect */
+.even-split-panel.expanded {
+  max-width: 700px;
+  width: 95%;
+  padding: 20px;
+  border-width: 4px;
+}
+
+/* Input Styling */
+.even-split-panel input {
+  width: 90%;
+  height: 2.5rem;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Button Styling */
+.even-split-panel button {
+  height: 3rem;
+  width: 9rem;
+  border-radius: 5px;
+  border: 2px solid white;
+  background-color: transparent;
+  color: white;
+  font-size: 1.2rem;
+  transition: background-color 0.4s ease;
+  margin: 0.5rem;
+}
+
+.even-split-panel button:hover {
+  background-color: hsl(199, 68%, 70%);
+  cursor: pointer;
+}
+
+/* Scrollable Split List */
+.split-results {
+  max-height: 600px;
+  overflow-y: auto;
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  margin: auto;
+  margin-bottom: 1rem;
+}
+
+/* Style each list item */
+.split-results p {
+  padding: 10px;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+/* Remove border from the last item */
+.split-results p:last-child {
+  border-bottom: none;
+}
+
+/* Style the Edit & Done buttons */
+.split-buttons {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .even-split-panel {
+    width: 95%;
+    max-width: 100%;
   }
-  
-  .even-split-panel input {
-    width: 80%;
-    height: 2rem;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 1rem;
+
+  .split-results {
+    width: 95%;
   }
-  
+
+  .split-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
   .even-split-panel button {
-    height: 3rem;
-    width: 9rem;
-    border-radius: 5px;
-    border: 2px solid white;
-    background-color: transparent;
-    color: white;
-    font-size: 1.2rem;
-    transition: background-color 0.4s ease;
+    width: 100%;
+    margin: 5px 0;
   }
-  
-  .even-split-panel button:hover {
-    background-color: hsl(199, 68%, 70%);
-    cursor: pointer;
+}
+
+@media screen and (max-width: 480px) {
+  .even-split-panel {
+    width: 100%;
+    padding: 15px;
   }
-  
+
+  .split-results {
+    width: 100%;
+  }
+
+  .split-buttons {
+    flex-direction: column;
+  }
+
+  .even-split-panel input {
+    width: 100%;
+  }
+
+  .even-split-panel button {
+    width: 100%;
+    margin: 5px 0;
+  }
+}

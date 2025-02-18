@@ -2,31 +2,125 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    flex-wrap: wrap; /* Ensures wrapping on smaller screens */
+    width: 90%;
+    max-width: 800px; /* Prevents it from being too wide on large screens */
+    margin: auto;
+    gap: 10px; /* Adds space between elements */
 }
 
+/* Ensures the event name input stays independent */
 .event-details-container input {
     height: 40px;
     padding: 5px;
-    margin: 0.5rem;
     text-align: center;
     font-size: 1.2rem;
     border-radius: 10px;
     border: none;
+    width: 100%;
+    max-width: 250px; /* Prevents stretching too much */
+    box-sizing: border-box;
 }
 
+/* Group date input and Confirm button together */
+.event-date-group {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between date input and button */
+}
+
+/* Ensure button aligns next to date field */
+.event-date-group input {
+    width: 150px; /* Ensures the date input is not too large */
+}
+
+.event-confirm-btn {
+    height: 42px;
+    padding: 0 15px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease;
+    white-space: nowrap; /* Prevents button from wrapping */
+}
+
+.event-confirm-btn:hover {
+    /* background-color: #218838; */
+}
+
+/* Event Summary */
 .event-summary {
     display: flex;
     justify-content: center;
     align-items: center;
-  
     border-radius: 20px;
     width: 90%;
-    min-width: 350px;
-    padding: 0.2rem;
+    max-width: 600px; /* Keeps it responsive */
+    padding: 0.5rem;
     flex-wrap: wrap;
+    text-align: center;
+    margin: auto;
 }
 
-.event-summary h2 {
-    font-weight: 400;
+.event-form-edit-btn {
+    margin-left: 1rem;
+}
+
+/* Responsive adjustments for smaller screens */
+@media screen and (max-width: 768px) {
+    .event-details-container {
+        flex-direction: column;
+        align-items: center;
+        width: 95%;
+    }
+
+    .event-date-group {
+        flex-direction: row; /* Keep input and button inline */
+        justify-content: center;
+        width: 100%;
+    }
+
+    .event-date-group input {
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .event-summary {
+        width: 95%;
+        padding: 0.5rem;
+    }
+}
+
+/* Further adjustments for mobile screens */
+@media screen and (max-width: 480px) {
+    .event-details-container {
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    .event-date-group {
+        flex-direction: column; /* Stack inputs on very small screens */
+        align-items: center;
+        gap: 5px;
+    }
+
+    .event-date-group input {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .event-confirm-btn {
+        width: 100%;
+    }
+
+    .event-summary {
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    .event-summary h2 {
+        font-size: 1.2rem;
+    }
 }

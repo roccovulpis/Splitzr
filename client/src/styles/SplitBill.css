@@ -1,11 +1,32 @@
 #panels-container {
   display: flex;
-  height: 90%;
   justify-content: center;
+  flex-direction: column; 
+  flex-wrap: wrap;
+  width: 90%; 
+  max-width: 1400px; 
+  margin: auto; 
 }
 
 #entry-panel {
   display: flex;
   flex-direction: column;
   text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 100%; 
+  padding: 10px; 
+  box-sizing: border-box;
+  margin-top: -30px;
+}
+
+@media (min-width: 768px) {
+  #panels-container {
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  #entry-panel {
+    width: 50%; 
+  }
 }

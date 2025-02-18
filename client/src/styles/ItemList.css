@@ -1,12 +1,15 @@
 /* Preserve item list layout */
 .added-items {
     overflow-y: auto;
-    width: 90%;
+    width: 100%; /* Make it fill its container */
     display: flex;
     flex-direction: column;
     max-height: 450px;
     min-height: 400px;
-    align-items: flex-start;
+    align-items: center; /* Ensures proper centering */
+    margin: auto;
+    padding: 0 10px; /* Ensures proper spacing inside */
+    box-sizing: border-box;
 }
 
 /* Scrollbar settings */
@@ -31,34 +34,42 @@
     justify-content: space-between;
     align-items: center;
     width: 90%;
+    max-width: 100%; /* Prevents items from exceeding container width */
     padding: 10px;
     background-color: white;
     color: black;
     border-radius: 10px;
     margin-top: 10px;
+    flex-wrap: wrap; /* Ensures items wrap properly on smaller screens */
+    box-sizing: border-box;
 }
 
 /* Ensure proper spacing inside list items */
 .added-items li .text {
-    flex: 2;
+    flex: 1; /* Allows text to adjust dynamically */
     display: flex;
     align-items: center;
-    gap: 20px; 
+    gap: 10px;
+    flex-wrap: wrap; /* Prevents text from overflowing */
+    justify-content: flex-start;
+    width: 100%;
 }
 
 /* Ensure proper positioning of quantity and price input fields */
 .added-items li .added-items-quant-input {
     width: 50px;
+    min-width: 40px;
 }
 
 .added-items li .added-items-price-input {
-    width: 150px;
-    text-align: right; 
+    width: 120px;
+    text-align: right;
+    min-width: 100px;
 }
 
 /* Ensure spacing for buttons inside item list */
 .added-items li button {
-    margin-left: 10px; 
+    margin-left: 10px;
 }
 
 /* Keep price aligned properly */
@@ -68,6 +79,86 @@
     text-align: right;
 }
 
+/* Fix Confirmed Items Layout */
 .confirmed-items {
-    width: 400px;
+    width: 100%;
+    max-width: 100%; /* Prevents items from exceeding container */
+    margin: auto;
+    padding: 10px;
+    border-radius: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden; /* Prevents horizontal scroll issues */
+    box-sizing: border-box;
+}
+
+/* Adjust total display to fit properly */
+.total-display {
+    width: 100%;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+    .added-items {
+        width: 100%;
+        padding: 0 5px;
+    }
+
+    .added-items li {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .added-items li .added-items-price-input,
+    .added-items li .added-items-quant-input {
+        width: 80px;
+        text-align: center;
+    }
+
+    .confirmed-items {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+/* Further adjustments for mobile screens */
+@media screen and (max-width: 480px) {
+    .added-items {
+        width: 100%;
+        padding: 0;
+    }
+
+    .added-items li {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 5px;
+    }
+
+    .added-items li .text {
+        text-align: center;
+        justify-content: center;
+    }
+
+    .added-items li .added-items-price-input,
+    .added-items li .added-items-quant-input {
+        width: 100%;
+        max-width: 150px;
+        text-align: center;
+    }
+
+    .confirmed-items {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .total-display {
+        font-size: 1rem;
+    }
 }

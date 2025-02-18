@@ -4,7 +4,7 @@ import ItemInput from './ItemInput';
 import ItemList from './ItemList';
 import ActionPanel from './ActionPanel';
 import SplitPanel from './SplitPanel';
-import EvenSplitPanel from './EvenSplitPanel'; // ✅ Import new component
+import EvenSplitPanel from './EvenSplitPanel';
 import '../styles/BillForm.css';
 
 export default function BillForm() {

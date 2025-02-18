@@ -13,6 +13,8 @@ export default function ItemInput({
   cancelEdit,
 }) {
   return (
+    <>
+      <h2>Items</h2>
     <div className="event-items-container">
       <input
         className="item-input"
@@ -44,5 +46,7 @@ export default function ItemInput({
         </button>
       )}
     </div>
+    </>
+    
   );
 }
