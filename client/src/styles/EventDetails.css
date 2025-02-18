@@ -68,6 +68,10 @@
     margin-left: 1rem;
 }
 
+.event-header {
+    margin-top: -5px;
+}
+
 /* Responsive adjustments for smaller screens */
 @media screen and (max-width: 768px) {
     .event-details-container {

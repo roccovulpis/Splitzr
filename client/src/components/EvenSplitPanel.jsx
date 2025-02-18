@@ -55,7 +55,7 @@ export default function EvenSplitPanel({ total, setPeople, setSplitOption }) {
               <p key={index}>{person.name}: ${person.amount}</p>
             ))}
           </div>
-          <button onClick={editAmount}>Edit Amount</button>
+          <button onClick={editAmount}>Edit</button>
           <button onClick={() => setSplitOption(null)}>Done</button>
         </>
       )}
