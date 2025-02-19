@@ -23,6 +23,7 @@ export default function BillForm() {
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [splitOption, setSplitOption] = useState(null);
   const [people, setPeople] = useState([{ name: "", amount: 0 }]);
+  const [isBillSubmitted, setIsBillSubmitted] = useState(false); // ✅ New state for tracking submission
 
   // Calculate total price whenever items update
   useEffect(() => {
@@ -82,6 +83,7 @@ export default function BillForm() {
     setIsConfirmed(false);
     setSplitOption(null);
     setIsEditingEvent(true);
+    setIsBillSubmitted(false); // ✅ Reset submission state when editing
   }
 
   function handleSplitOption(option) {
@@ -120,6 +122,7 @@ export default function BillForm() {
       if (response.ok) {
         console.log("Bill added successfully:", data);
         alert("Bill added successfully!");
+        setIsBillSubmitted(true); // ✅ Hide button after successful submission
       } else {
         console.error("Error:", data.message);
         alert("Error adding bill: " + data.message);
@@ -168,7 +171,8 @@ export default function BillForm() {
             <h3>Items:</h3>
             <ItemList items={items} startEditItem={() => {}} removeItem={() => {}} hideButtons={true} />
             <h3>Total: ${total}</h3>
-            <AddBillButton onClick={handleAddBill} />
+
+            {!isBillSubmitted && <AddBillButton onClick={handleAddBill} />} {/* ✅ Hide button after submission */}
           </div>
         )}
       </div>

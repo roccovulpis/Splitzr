@@ -14,6 +14,9 @@ export default function HomeTestimonials() {
         <div className="testimonial">
           <p>"No more arguing over who owes what. Love it!" - Galo V.</p>
         </div>
+        <div className="testimonial">
+          <p>"Splitzr makes splitting checks at my job so much easier." - Dylan S.</p>
+        </div>
       </div>
   )
 }
