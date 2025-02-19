@@ -33,6 +33,7 @@ nav {
   list-style: none;
   margin: 0;
   padding: .5rem;
+  white-space: nowrap;
 }
 
 #nav-logo {
@@ -117,8 +118,36 @@ a:hover {
   color: white;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 375px) {
   nav {
-    font-size: 1rem;
+    font-size: .9rem;
+    
+  }
+
+  #nav-list {
+    display: flex;
+    flex-wrap: nowrap; /* Prevents wrapping */
+    justify-content: center;
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  #nav-list li {
+    white-space: nowrap; /* Prevents words from breaking into new lines */
+  }
+
+  #nav-title {
+    display: none;
+  }
+
+  #logout-btn {
+    border: 2px solid white;
+    color: white;
+    padding: .5rem;
+    font-size: .8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5px;
   }
 }

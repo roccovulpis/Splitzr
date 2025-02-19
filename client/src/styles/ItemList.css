@@ -128,7 +128,7 @@
 }
 
 /* Further adjustments for mobile screens */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 300px) {
     .added-items {
         width: 100%;
         padding: 0;

@@ -290,13 +290,13 @@ button:hover {
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 300px) {
   .bill-container {
     flex-direction: column;
     align-items: center;
     width: 100%;
   }
-
+  
   .bill-panel,
   .right-panels {
     width: 100%;
