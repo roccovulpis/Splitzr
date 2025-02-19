@@ -1,0 +1,9 @@
+.stored-bills-container {
+    display: flex;
+    justify-content: center;
+    min-height: 400px; /* Ensures visibility */
+    border: 3px solid white;
+    border-radius: 5px;
+    width: 70%;
+    flex-shrink: 1;
+}

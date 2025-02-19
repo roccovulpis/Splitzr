@@ -27,7 +27,7 @@ export default function BillForm() {
   function editBill() {
     setIsConfirmed(false);
     setSplitOption(null);
-    setIsEditingEvent(true); // Re-enable editing and show the pencil
+    setIsEditingEvent(true); 
   }
 
 
