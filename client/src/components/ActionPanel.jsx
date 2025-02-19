@@ -14,7 +14,7 @@ export default function ActionPanel({ editBill, handleSplitOption }) {
           <span className="button-icon">🔄</span>
           <span className="button-text">Split Evenly</span>
         </button>
-        <button onClick={() => handleSplitOption('custom')}>
+        <button onClick={() => handleSplitOption('custom')} disabled>
           <span className="button-icon">👥</span>
           <span className="button-text">Assign Items</span>
         </button>

@@ -24,63 +24,17 @@ export default function BillForm() {
     setTotal(items.reduce((sum, item) => sum + item.price, 0));
   }, [items]);
 
-  function addItem() {
-    const unitPrice = parseFloat(itemPrice) || 0;
-    const qty = parseInt(quantity, 10) || 0;
-
-    if (newItem.trim() !== '' && unitPrice > 0 && qty > 0) {
-      if (editingIndex !== null) {
-        setItems((prevItems) =>
-          prevItems.map((item, index) =>
-            index === editingIndex
-              ? { ...item, name: newItem, unitPrice, price: unitPrice * qty, quantity: qty }
-              : item
-          )
-        );
-        setEditingIndex(null);
-      } else {
-        setItems([...items, { name: newItem, unitPrice, price: unitPrice * qty, quantity: qty }]);
-      }
-      resetInputs();
-    }
-  }
-
-  function removeItem(index) {
-    setItems(items.filter((_, i) => i !== index));
-  }
-
-  function confirmBill() {
-    setIsConfirmed(true);
-    setIsEditingEvent(false); // Disable editing for the event title and hide the pencil
-  }
-
   function editBill() {
     setIsConfirmed(false);
     setSplitOption(null);
     setIsEditingEvent(true); // Re-enable editing and show the pencil
   }
 
-  function handleSplitOption(option) {
-    setSplitOption(option);
-    if (option === 'equal') {
-      const splitAmount = total / people.length;
-      setPeople(people.map((p) => ({ ...p, amount: splitAmount })));
-    }
-  }
-
-  function handlePersonChange(index, field, value) {
-    const updatedPeople = [...people];
-    updatedPeople[index][field] = field === 'amount' ? parseFloat(value) : value;
-    setPeople(updatedPeople);
-  }
-
-  function addPerson() {
-    setPeople([...people, { name: '', amount: 0 }]);
-  }
 
   return (
     <div className={`bill-container ${isConfirmed ? 'confirmed' : ''}`}>
       <h1>Under Construction</h1>
+      <button onClick={editBill}></button>
     </div>
   );
 }
