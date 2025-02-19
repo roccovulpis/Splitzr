@@ -1,59 +1,124 @@
 .action-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 20px;
-    border: 3px solid white;
-    margin-left: 10px;
-    opacity: 0;
-    transform: translateX(50%);
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-    width: 400px;
-    padding: 0 2rem 1rem;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  border: 3px solid white;
+  opacity: 0;
+  width: 100%;
+  max-width: 400px; 
+  padding: 1rem;
+  text-align: center;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  overflow: hidden; /* Prevents content from spilling out */
+  box-sizing: border-box; /* Ensures padding doesn’t affect width */
+}
+
+/* Ensure the panel becomes visible when confirmed */
+.confirmed .action-panel {
+  opacity: 1;
+}
+
+/* Action Panel Buttons */
+.action-panel-btns {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1rem;
+  justify-content: center; /* Ensures proper alignment */
+  flex-wrap: wrap; /* Ensures buttons don't overflow */
+}
+
+.action-panel-btns button {
+  height: 100px; /* Reduced slightly to prevent overflow */
+  width: 100px; /* Adjusted width */
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 0.85rem;
+  text-align: center;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease-in-out, background 0.3s ease-in-out;
+}
+
+.action-panel-btns button:hover {
+  transform: scale(1.05);
+}
+
+.button-icon {
+  font-size: 1.4rem;
+  display: block;
+}
+
+.button-text {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* 🔧 Fix alignment & button size on smaller screens */
+@media screen and (max-width: 768px) {
+  .action-panel {
+    width: 100%;
+    max-width: 350px;
+    padding: 1rem;
   }
-  
-  .action-panel-btns {
-    display: flex;
-    gap: 1rem;
-    padding-top: 1rem;
-  }
-  
-  .action-panel-btns button {
-    height: 130px;
-    width: 130px;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Centers content */
-    gap: 5px; /* Adds spacing between icon and text */
-    font-size: 1rem;
-    text-align: center;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.15s ease-in-out, background 0.3s ease-in-out;
-  }
-  
-  .action-panel-btns button:hover {
-    transform: scale(1.1);
-    /* background: rgba(255, 255, 255, 0.2); */
-  }
-  
-  .button-icon {
-    font-size: 1.8rem;
-    display: block;
-  }
-  
-  .button-text {
-    font-size: 0.9rem; 
-    text-transform: uppercase; 
-    font-weight: 600;
-  }
-    
+
   .confirmed .action-panel {
-    opacity: 1;
-    transform: translateX(0);
+    width: 100%;
+    margin-top: 20px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: flex;
+    justify-content: center;
   }
-  
+
+  .action-panel-btns {
+    gap: 0.5rem; /* Reduced spacing */
+  }
+
+  .action-panel-btns button {
+    height: 90px;
+    width: 90px;
+    font-size: 0.8rem;
+  }
+
+  .button-icon {
+    font-size: 1.2rem;
+  }
+
+  .button-text {
+    font-size: 0.75rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .action-panel {
+    width: 100%;
+    max-width: 320px;
+    padding: 0.8rem;
+    margin-top: 20px;
+  }
+
+  .action-panel-btns {
+    gap: 0.3rem; /* Further reduced spacing */
+  }
+
+  .action-panel-btns button {
+    height: 80px;
+    width: 80px;
+    font-size: 0.75rem;
+  }
+
+  .button-icon {
+    font-size: 1rem;
+  }
+
+  .button-text {
+    font-size: 0.7rem;
+  }
+}

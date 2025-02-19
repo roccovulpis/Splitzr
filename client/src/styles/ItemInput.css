@@ -3,29 +3,28 @@
     justify-content: center;
     align-items: center;
     padding: 10px;
-    gap: 10px;
-    flex-wrap: wrap; /* Ensures wrapping on smaller screens */
+    gap: 5px; /* Reduce space for better fit */
+    flex-wrap: wrap;
     width: 100%;
-    max-width: 800px; /* Prevents it from being too wide */
+    max-width: 800px;
     margin: auto;
-    margin-top: -20px;
-    flex-direction: row; /* Ensures elements are placed next to each other */
+    margin-top: -10px; /* Reduce negative margin */
 }
 
-/* Ensure input fields scale properly */
+/* Keep inputs inline */
 .event-items-container input {
     height: 40px;
     border-radius: 10px;
     border: none;
     font-size: 1rem;
-    margin: 3px;
-    width: auto; /* Allows inputs to be next to each other */
-    min-width: 150px; /* Prevents shrinking too much */
-    flex: 1; /* Allows equal spacing */
+    margin: 2px;
+    width: auto;
+    min-width: 140px; /* Prevent shrinking too much */
+    flex: 1;
     box-sizing: border-box;
 }
 
-/* Responsive Adjustments */
+/* 📱 Responsive Fixes */
 @media screen and (max-width: 768px) {
     .event-items-container {
         flex-wrap: wrap;
@@ -34,12 +33,11 @@
     }
 
     .event-items-container input {
-        width: 45%; /* Keeps them next to each other on medium screens */
+        width: 48%; /* Keep inputs side by side */
         min-width: 120px;
     }
 }
 
-/* Further adjustments for mobile screens */
 @media screen and (max-width: 480px) {
     .event-items-container {
         flex-direction: column;
@@ -48,7 +46,7 @@
     }
 
     .event-items-container input {
-        width: 100%; /* Stacks the inputs on very small screens */
+        width: 100%;
         min-width: auto;
         font-size: 1rem;
         height: 35px;

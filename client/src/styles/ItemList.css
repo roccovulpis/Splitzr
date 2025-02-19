@@ -4,7 +4,7 @@
     width: 100%; /* Make it fill its container */
     display: flex;
     flex-direction: column;
-    max-height: 450px;
+    max-height: 400px;
     min-height: 400px;
     align-items: center; /* Ensures proper centering */
     margin: auto;

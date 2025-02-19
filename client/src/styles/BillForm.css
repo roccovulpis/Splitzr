@@ -1,76 +1,18 @@
-.event-form-container {
-  border: 3px solid white;
-  border-radius: 20px;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  min-height: 650px;
-  width: 100%;
-  max-width: 600px;
-  margin: auto;
-}
-
-.event-form-container input {
-  height: 40px;
-  border-radius: 10px;
-  border: none;
-  font-size: 1rem;
-  margin: 3px;
-  width: 100%;
-  max-width: 400px;
-}
-
-.added-items {
-  overflow-y: auto;
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  max-height: 400px;
-  min-height: 350px;
-  align-items: center; /* Ensures list stays centered */
-  padding: 0;
-  margin: 0 auto; /* Centers the entire list */
-}
-
-/* Remove default list styles */
-.added-items ol, 
-.added-items ul {
-  padding-left: 0; /* Removes extra indentation */
-  margin: 0;
-  width: 100%;
-}
-
-/* Scrollbar Styling */
-.added-items::-webkit-scrollbar {
-  width: 10px;
-}
-
-.added-items::-webkit-scrollbar-track {
-  background: #f4f4f4;
-  border-radius: 10px;
-}
-
-.added-items::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 10px;
-  border: 2px solid #f4f4f4;
-}
-
-
+/* Bill Container - Fully Responsive */
 .bill-container {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  width: 100%; 
-  max-width: 1200px;
-  margin: auto;
+  width: 100%;
+  min-width: 1000px;
+  max-width: 1400px;
   transition: transform 0.5s ease-in-out, max-width 0.5s ease-in-out, width 0.5s ease-in-out;
   position: relative;
+  gap: 40px; 
 }
 
+/* Bill Panel */
 .bill-panel {
-  /* min-width: 700px;
-  max-width: 800px; */
   padding: 1rem;
   border: 3px solid white;
   border-radius: 20px;
@@ -82,63 +24,8 @@
   position: relative;
   left: 0;
   overflow: hidden;
-}
-
-/* When confirmed, shrink and move left */
-.confirmed .bill-panel {
-  transform: translateX(-30%);
-  min-width: 450px;
-  max-width: 500px;
-  flex-shrink: 1;
-}
-
-/* Move the bill to the left when confirmed */
-.confirmed .bill-container {
-  justify-content: flex-start;
-}
-
-.right-panels {
-  display: flex;
-  flex-direction: column;
-  min-width: 400px;
-  max-width: 600px;
-  transition: width 0.5s ease-in-out;
-}
-
-.action-panel {
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-  opacity: 0;
-  transform: translateX(50%);
-}
-
-.confirmed .action-panel {
-  opacity: 1;
-  transform: translateX(0);
-  margin-left: 30px;
-}
-
-.split-panel {
-  padding: 1.2rem;
-  border-radius: 20px;
-  margin-left: 20px;
-  opacity: 0;
-  transform: translateX(50%);
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.split-panel.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.total-display {
-  display: flex;
-  margin-top: auto;
-  width: 90%;
-  justify-content: flex-end;
-  margin-right: 1rem;
-  border-top: 2px solid white;
-  margin-top: 1.2rem;
+  width: 100%;
+  max-width: 550px; /* Ensures bill does not expand too much */
 }
 
 button {
@@ -158,24 +45,180 @@ button:hover {
   height: 50px;
 }
 
-/* Responsive Adjustments */
+/* Move bill left upon confirmation (only for large screens) */
+@media screen and (min-width: 1024px) {
+  .confirmed .bill-container {
+    justify-content: flex-start;
+  }
+
+  .confirmed .bill-panel {
+    transform: translateX(-20%);
+    min-width: 450px;
+    max-width: 500px;
+  }
+}
+
+/* Right Panels - Ensure Proper Layout */
+.right-panels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  transition: width 0.5s ease-in-out;
+  gap: 20px; /* Adds spacing between panels */
+}
+
+/* Action Panel */
+.action-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  border: 3px solid white;
+  opacity: 0;
+  width: 100%;
+  max-width: 500px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.confirmed .action-panel {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ✅ Buttons Now Appear Horizontally */
+.action-panel-btns {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  width: 100%;
+  gap: 15px; /* Adds space between buttons */
+}
+
+.action-panel-btns button {
+  height: 130px;
+  width: 130px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1rem;
+  text-align: center;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease-in-out, background 0.3s ease-in-out;
+}
+
+.action-panel-btns button:hover {
+  transform: scale(1.1);
+}
+
+.button-icon {
+  font-size: 1.8rem;
+}
+
+.button-text {
+  font-size: .9rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Split Panel - Keep Centered */
+.split-panel {
+  padding: 1.5rem;
+  border-radius: 20px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 500px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.split-panel.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ✅ Fully Responsive Adjustments */
 @media screen and (max-width: 1200px) {
   .bill-container {
     flex-direction: column;
     align-items: center;
+    width: 95%;
     max-width: 100%;
+    padding: 0 1rem;
+    min-width: unset;
   }
 
   .bill-panel {
-    width: 90%;
+    width: 85%;
     max-width: 700px;
-    transform: none;
+  }
+
+  .confirmed .bill-panel {
+    transform: none !important;
+    min-width: 100%;
+    max-width: 100%;
   }
 
   .right-panels {
-    width: 90%;
+    width: 85%;
     max-width: 700px;
     margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .bill-container {
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+    max-width: 100%;
+    padding: 0 1rem;
+    min-width: unset;
+  }
+
+  .bill-panel {
+    width: 85%;
+    max-width: 700px;
+  }
+
+  .right-panels {
+    width: 85%;
+    max-width: 700px;
+    margin-top: 20px;
+  }
+
+  .confirmed .bill-panel {
+    transform: none !important;
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
+
+
+@media screen and (max-width: 900px) {
+  .bill-container {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .bill-panel,
+  .right-panels {
+    width: 90%;
+    max-width: 750px;
+  }
+
+  .action-panel,
+  .split-panel {
+    width: 100%;
   }
 }
 
@@ -184,6 +227,7 @@ button:hover {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    padding: 0 1rem;
   }
 
   .bill-panel,
@@ -193,25 +237,56 @@ button:hover {
     margin-left: 0;
   }
 
-  .action-panel,
+  .action-panel-btns {
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  .action-panel-btns button {
+    height: 130px;
+    width: 130px;
+  }
+
   .split-panel {
     transform: none;
     opacity: 1;
     width: 100%;
     margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .bill-container {
+    width: 100%;
+    padding: 0;
   }
 
-  .event-form-container {
-    width: 95%;
+  .bill-panel,
+  .right-panels {
+    width: 100%;
     max-width: 100%;
   }
 
-  .event-form-container input {
-    width: 100%;
+  .action-panel {
+    padding: 1rem;
   }
 
-  .added-items {
-    width: 100%;
+  .action-panel-btns {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .action-panel-btns button {
+    width: 100px;
+    height: 100px;
+    font-size: 0.rem;
+  }
+
+  .split-panel {
+    padding: 1rem;
   }
 }
 
@@ -226,12 +301,25 @@ button:hover {
   .right-panels {
     width: 100%;
     max-width: 100%;
-    margin-left: 0;
+    padding: 1rem;
   }
 
   .event-form-container {
     width: 100%;
     max-width: 100%;
+    padding: 1rem;
+  }
+
+  .action-panel-btns {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .action-panel-btns button {
+    width: 90px;
+    height: 90px;
   }
 
   .event-form-container input {
@@ -242,6 +330,7 @@ button:hover {
 
   .added-items {
     width: 100%;
+    max-height: 250px;
   }
 
   button {
