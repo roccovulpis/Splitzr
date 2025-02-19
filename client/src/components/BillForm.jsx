@@ -1,26 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import EventDetails from './EventDetails';
-import ItemInput from './ItemInput';
-import ItemList from './ItemList';
-import ActionPanel from './ActionPanel';
-import SplitPanel from './SplitPanel';
-import EvenSplitPanel from './EvenSplitPanel';
-import '../styles/BillForm.css';
+import React, { useState, useEffect } from "react";
+import EventDetails from "./EventDetails";
+import ItemInput from "./ItemInput";
+import ItemList from "./ItemList";
+import ActionPanel from "./ActionPanel";
+import SplitPanel from "./SplitPanel";
+import AddBillButton from "./AddBillBtn";
+import EvenSplitPanel from "./EvenSplitPanel";
+import "../styles/BillForm.css";
+
+const API_BASE_URL = import.meta.env.VITE_API_URL; // Load API URL from .env
 
 export default function BillForm() {
-  const [event, setEvent] = useState('');
-  const [eventDate, setEventDate] = useState('');
+  const [event, setEvent] = useState("");
+  const [eventDate, setEventDate] = useState("");
   const [items, setItems] = useState([]);
-  const [newItem, setNewItem] = useState('');
-  const [itemPrice, setItemPrice] = useState('');
-  const [quantity, setQuantity] = useState('');
+  const [newItem, setNewItem] = useState("");
+  const [itemPrice, setItemPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [total, setTotal] = useState(0);
   const [isEditingEvent, setIsEditingEvent] = useState(true);
   const [editingIndex, setEditingIndex] = useState(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [splitOption, setSplitOption] = useState(null);
-  const [people, setPeople] = useState([{ name: '', amount: 0 }]);
+  const [people, setPeople] = useState([{ name: "", amount: 0 }]);
 
+  // Calculate total price whenever items update
   useEffect(() => {
     setTotal(items.reduce((sum, item) => sum + item.price, 0));
   }, [items]);
@@ -29,7 +33,7 @@ export default function BillForm() {
     const unitPrice = parseFloat(itemPrice) || 0;
     const qty = parseInt(quantity, 10) || 0;
 
-    if (newItem.trim() !== '' && unitPrice > 0 && qty > 0) {
+    if (newItem.trim() !== "" && unitPrice > 0 && qty > 0) {
       if (editingIndex !== null) {
         setItems((prevItems) =>
           prevItems.map((item, index) =>
@@ -64,9 +68,9 @@ export default function BillForm() {
   }
 
   function resetInputs() {
-    setNewItem('');
-    setItemPrice('');
-    setQuantity('');
+    setNewItem("");
+    setItemPrice("");
+    setQuantity("");
   }
 
   function confirmBill() {
@@ -84,10 +88,52 @@ export default function BillForm() {
     setSplitOption(option);
   }
 
+  async function handleAddBill() {
+    if (!event || !eventDate || items.length === 0) {
+      alert("Please enter event details and at least one item before adding the bill.");
+      return;
+    }
+
+    const billData = {
+      event_name: event,
+      event_date: eventDate,
+      items: items.map(({ name, unitPrice, quantity }) => ({
+        item: name,
+        price: unitPrice,
+        quantity,
+      })),
+    };
+
+    console.log("Submitting Bill:", billData);
+    console.log("Using API URL:", API_BASE_URL); // Debugging check
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/bills/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(billData),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Bill added successfully:", data);
+        alert("Bill added successfully!");
+      } else {
+        console.error("Error:", data.message);
+        alert("Error adding bill: " + data.message);
+      }
+    } catch (error) {
+      console.error("Request error:", error);
+      alert("Failed to add bill. Please try again.");
+    }
+  }
+
   return (
-    <div className={`bill-container ${isConfirmed ? 'confirmed' : ''}`}>
+    <div className={`bill-container ${isConfirmed ? "confirmed" : ""}`}>
       {/* Left Panel */}
-      <div className={`bill-panel ${isConfirmed ? 'shrunk' : ''}`}>
+      <div className={`bill-panel ${isConfirmed ? "shrunk" : ""}`}>
         <EventDetails
           event={event}
           eventDate={eventDate}
@@ -108,19 +154,21 @@ export default function BillForm() {
               handleItemInputChange={(e) => setNewItem(e.target.value)}
               handlePriceInputChange={(e) => setItemPrice(e.target.value)}
               handleQuantityInputChange={(e) => setQuantity(e.target.value)}
-              addItem={addItem} // ✅ Pass addItem correctly
+              addItem={addItem}
               cancelEdit={cancelEdit}
             />
             <ItemList items={items} startEditItem={startEditItem} removeItem={removeItem} />
             <h3 className="total-display">Total: ${total.toFixed(2)}</h3>
-            <button className="bill-confirm-btn" onClick={confirmBill}>Confirm Bill</button>
+            <button className="bill-confirm-btn" onClick={confirmBill}>
+              Confirm Bill
+            </button>
           </>
         ) : (
           <div className="confirmed-items">
             <h3>Items:</h3>
             <ItemList items={items} startEditItem={() => {}} removeItem={() => {}} hideButtons={true} />
             <h3>Total: ${total}</h3>
-            <button className="bill-confirm-btn" >Save to My Bills</button>
+            <AddBillButton onClick={handleAddBill} />
           </div>
         )}
       </div>
@@ -130,9 +178,9 @@ export default function BillForm() {
         <div className="right-panel">
           {!splitOption && <ActionPanel editBill={editBill} handleSplitOption={handleSplitOption} />}
 
-          {splitOption === 'equal' && <EvenSplitPanel total={total} setPeople={setPeople} setSplitOption={setSplitOption} />}
+          {splitOption === "equal" && <EvenSplitPanel total={total} setPeople={setPeople} setSplitOption={setSplitOption} />}
 
-          {splitOption === 'custom' && <SplitPanel people={people} handlePersonChange={() => {}} addPerson={() => {}} />}
+          {splitOption === "custom" && <SplitPanel people={people} handlePersonChange={() => {}} addPerson={() => {}} />}
         </div>
       )}
     </div>
