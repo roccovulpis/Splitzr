@@ -118,23 +118,24 @@ a:hover {
   color: white;
 }
 
-@media (max-width: 375px) {
-  nav {
-    font-size: .9rem;
-    
+@media (max-width: 450px) {
+  .register-li {
+    display: none !important;
   }
+}
+
+@media (max-width: 375px) {
 
   #nav-list {
     display: flex;
-    flex-wrap: nowrap; /* Prevents wrapping */
+    flex-wrap: nowrap; 
     justify-content: center;
-    gap: 0.8rem;
     align-items: center;
   }
 
-  #nav-list li {
-    white-space: nowrap; /* Prevents words from breaking into new lines */
-  }
+  /* #nav-list li {
+    white-space: nowrap; 
+  } */
 
   #nav-title {
     display: none;
@@ -149,5 +150,9 @@ a:hover {
     cursor: pointer;
     transition: all 0.3s ease;
     border-radius: 5px;
+  }
+
+  .register-li {
+    display: none !important;
   }
 }

@@ -26,7 +26,7 @@ export default function Navbar({ isAuthenticated, handleLogout }) {
         {!isAuthenticated ? (
           <>
             <li><Link to="/login">Login</Link></li>
-            <li><Link to="/register">Sign Up</Link></li>
+            <li className='register-li'><Link to="/register">Sign Up</Link></li>
           </>
         ) : (
           <li>
