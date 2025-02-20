@@ -8,28 +8,82 @@ import AddBillButton from "./AddBillBtn";
 import EvenSplitPanel from "./EvenSplitPanel";
 import "../styles/BillForm.css";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL; // Load API URL from .env
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function BillForm() {
-  const [event, setEvent] = useState("");
-  const [eventDate, setEventDate] = useState("");
-  const [items, setItems] = useState([]);
-  const [newItem, setNewItem] = useState("");
-  const [itemPrice, setItemPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [total, setTotal] = useState(0);
-  const [isEditingEvent, setIsEditingEvent] = useState(true);
-  const [editingIndex, setEditingIndex] = useState(null);
-  const [isConfirmed, setIsConfirmed] = useState(false);
-  const [splitOption, setSplitOption] = useState(null);
-  const [people, setPeople] = useState([{ name: "", amount: 0 }]);
-  const [isBillSubmitted, setIsBillSubmitted] = useState(false); // ✅ New state for tracking submission
+  /** ✅ Load state from localStorage before rendering */
+  const getInitialState = () => {
+    const savedState = JSON.parse(localStorage.getItem("billFormState"));
+    return savedState || {
+      event: "",
+      eventDate: "",
+      items: [],
+      newItem: "",
+      itemPrice: "",
+      quantity: "",
+      isEditingEvent: true,
+      editingIndex: null,
+      isConfirmed: false,
+      splitOption: null,
+      people: [{ name: "", amount: 0 }],
+      isBillSubmitted: false,
+    };
+  };
 
-  // Calculate total price whenever items update
+  const [event, setEvent] = useState(getInitialState().event);
+  const [eventDate, setEventDate] = useState(getInitialState().eventDate);
+  const [items, setItems] = useState(getInitialState().items);
+  const [newItem, setNewItem] = useState(getInitialState().newItem);
+  const [itemPrice, setItemPrice] = useState(getInitialState().itemPrice);
+  const [quantity, setQuantity] = useState(getInitialState().quantity);
+  const [isEditingEvent, setIsEditingEvent] = useState(getInitialState().isEditingEvent);
+  const [editingIndex, setEditingIndex] = useState(getInitialState().editingIndex);
+  const [isConfirmed, setIsConfirmed] = useState(getInitialState().isConfirmed);
+  const [splitOption, setSplitOption] = useState(getInitialState().splitOption);
+  const [people, setPeople] = useState(getInitialState().people);
+  const [isBillSubmitted, setIsBillSubmitted] = useState(getInitialState().isBillSubmitted);
+
+  /** ✅ Save state to localStorage when changes happen */
   useEffect(() => {
-    setTotal(items.reduce((sum, item) => sum + item.price, 0));
-  }, [items]);
+    localStorage.setItem(
+      "billFormState",
+      JSON.stringify({
+        event,
+        eventDate,
+        items,
+        newItem,
+        itemPrice,
+        quantity,
+        isEditingEvent,
+        editingIndex,
+        isConfirmed,
+        splitOption,
+        people,
+        isBillSubmitted,
+      })
+    );
+  }, [event, eventDate, items, newItem, itemPrice, quantity, isEditingEvent, editingIndex, isConfirmed, splitOption, people, isBillSubmitted]);
 
+  /** ✅ Calculate total price dynamically */
+  const total = items.reduce((sum, item) => sum + item.price, 0);
+
+  function confirmBill() {
+    setIsConfirmed(true);
+    setIsEditingEvent(false);
+  }
+
+  function editBill() {
+    setIsConfirmed(false);
+    setSplitOption(null);
+    setIsEditingEvent(true);
+    localStorage.removeItem("billFormState");
+  }
+
+  function handleSplitOption(option) {
+    setSplitOption(option);
+  }
+
+  /** ✅ Restore Add Item Function */
   function addItem() {
     const unitPrice = parseFloat(itemPrice) || 0;
     const qty = parseInt(quantity, 10) || 0;
@@ -48,13 +102,22 @@ export default function BillForm() {
         setItems([...items, { name: newItem, unitPrice, price: unitPrice * qty, quantity: qty }]);
       }
       resetInputs();
+      setIsBillSubmitted(false); // ✅ Show "Add to My Bills" button again when an item is added
     }
   }
 
+  function resetInputs() {
+    setNewItem("");
+    setItemPrice("");
+    setQuantity("");
+  }
+
+  /** ✅ Restore Item Deletion */
   function removeItem(index) {
     setItems(items.filter((_, i) => i !== index));
   }
 
+  /** ✅ Restore Item Editing */
   function startEditItem(index) {
     const item = items[index];
     setNewItem(item.name);
@@ -68,28 +131,27 @@ export default function BillForm() {
     resetInputs();
   }
 
-  function resetInputs() {
-    setNewItem("");
-    setItemPrice("");
-    setQuantity("");
+  /** ✅ Reset Bill with Confirmation */
+  function resetBill() {
+    const confirmReset = window.confirm("Are you sure you want to reset the bill? This action cannot be undone.");
+    if (confirmReset) {
+      localStorage.removeItem("billFormState");
+      setEvent("");
+      setEventDate("");
+      setItems([]);
+      setNewItem("");
+      setItemPrice("");
+      setQuantity("");
+      setIsEditingEvent(true);
+      setEditingIndex(null);
+      setIsConfirmed(false);
+      setSplitOption(null);
+      setPeople([{ name: "", amount: 0 }]);
+      setIsBillSubmitted(false);
+    }
   }
 
-  function confirmBill() {
-    setIsConfirmed(true);
-    setIsEditingEvent(false);
-  }
-
-  function editBill() {
-    setIsConfirmed(false);
-    setSplitOption(null);
-    setIsEditingEvent(true);
-    setIsBillSubmitted(false); // ✅ Reset submission state when editing
-  }
-
-  function handleSplitOption(option) {
-    setSplitOption(option);
-  }
-
+  /** ✅ Add to My Bills */
   async function handleAddBill() {
     if (!event || !eventDate || items.length === 0) {
       alert("Please enter event details and at least one item before adding the bill.");
@@ -106,9 +168,6 @@ export default function BillForm() {
       })),
     };
 
-    console.log("Submitting Bill:", billData);
-    console.log("Using API URL:", API_BASE_URL); // Debugging check
-
     try {
       const response = await fetch(`${API_BASE_URL}/bills/add`, {
         method: "POST",
@@ -120,15 +179,12 @@ export default function BillForm() {
 
       const data = await response.json();
       if (response.ok) {
-        console.log("Bill added successfully:", data);
         alert("Bill added successfully!");
-        setIsBillSubmitted(true); // ✅ Hide button after successful submission
+        setIsBillSubmitted(true); // ✅ Hide the "Add to My Bills" button permanently after submission
       } else {
-        console.error("Error:", data.message);
         alert("Error adding bill: " + data.message);
       }
     } catch (error) {
-      console.error("Request error:", error);
       alert("Failed to add bill. Please try again.");
     }
   }
@@ -162,29 +218,31 @@ export default function BillForm() {
             />
             <ItemList items={items} startEditItem={startEditItem} removeItem={removeItem} />
             <h3 className="total-display">Total: ${total.toFixed(2)}</h3>
-            <button className="bill-confirm-btn" onClick={confirmBill}>
-              Confirm Bill
-            </button>
+            <div className="bill-panel-btns">
+              <button className="bill-confirm-btn" onClick={confirmBill}>
+                Confirm Bill
+              </button>
+              <button className="reset-bill-btn" onClick={resetBill}>
+                Reset Bill
+              </button>
+            </div>
           </>
         ) : (
           <div className="confirmed-items">
             <h3>Items:</h3>
-            <ItemList items={items} startEditItem={() => {}} removeItem={() => {}} hideButtons={true} />
-            <h3>Total: ${total}</h3>
+            <ItemList items={items} hideButtons={true} />
+            <h3>Total: ${total.toFixed(2)}</h3>
 
-            {!isBillSubmitted && <AddBillButton onClick={handleAddBill} />} {/* ✅ Hide button after submission */}
+            {!isBillSubmitted && <AddBillButton onClick={handleAddBill} />}
           </div>
         )}
       </div>
 
-      {/* Right Panel - Handles split options */}
       {isConfirmed && (
         <div className="right-panel">
           {!splitOption && <ActionPanel editBill={editBill} handleSplitOption={handleSplitOption} />}
-
-          {splitOption === "equal" && <EvenSplitPanel total={total} setPeople={setPeople} setSplitOption={setSplitOption} />}
-
-          {splitOption === "custom" && <SplitPanel people={people} handlePersonChange={() => {}} addPerson={() => {}} />}
+          {splitOption === "equal" && <EvenSplitPanel total={total} setPeople={setPeople} onDone={() => setSplitOption(null)} onCancel={() => setSplitOption(null)} />}
+          {splitOption === "custom" && <SplitPanel people={people} />}
         </div>
       )}
     </div>

@@ -25,7 +25,21 @@
   left: 0;
   overflow: hidden;
   width: 100%;
-  max-width: 550px; /* Ensures bill does not expand too much */
+  max-width: 550px;
+}
+
+.bill-panel-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+}
+
+.bill-panel-btns button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
 }
 
 button {
@@ -39,10 +53,6 @@ button {
 
 button:hover {
   opacity: 0.8;
-}
-
-.bill-confirm-btn{
-  height: 50px;
 }
 
 /* Move bill left upon confirmation (only for large screens) */

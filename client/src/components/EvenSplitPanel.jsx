@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/EvenSplitPanel.css';
 
-export default function EvenSplitPanel({ total, setPeople, setSplitOption }) {
+export default function EvenSplitPanel({ total, setPeople, onDone, onCancel }) {
   const [numPeople, setNumPeople] = useState('');
   const [splitAmounts, setSplitAmounts] = useState([]);
   const [isConfirmed, setIsConfirmed] = useState(false);
@@ -15,7 +15,7 @@ export default function EvenSplitPanel({ total, setPeople, setSplitOption }) {
       }));
       setPeople(newPeople);
       setSplitAmounts(newPeople);
-      setIsConfirmed(true); 
+      setIsConfirmed(true);
     }
   }
 
@@ -25,8 +25,18 @@ export default function EvenSplitPanel({ total, setPeople, setSplitOption }) {
     setNumPeople('');
   }
 
-  function cancelSplit() {
-    setSplitOption(null); 
+  function handleCancel() {
+    console.log("Cancel button clicked");
+    if (onCancel) {
+      onCancel(); // ✅ Fix: Use onCancel instead of setSplitOption
+    }
+  }
+
+  function handleDone() {
+    console.log("Done button clicked, people:", splitAmounts);
+    if (onDone) {
+      onDone(splitAmounts); // ✅ Fix: Pass data back to BillForm
+    }
   }
 
   return (
@@ -45,7 +55,7 @@ export default function EvenSplitPanel({ total, setPeople, setSplitOption }) {
           />
           <div className="even-split-buttons">
             <button onClick={confirmEvenSplit}>Confirm</button>
-            <button className="cancel-btn" onClick={cancelSplit}>Cancel</button>
+            <button className="cancel-btn" onClick={handleCancel}>Cancel</button>
           </div>
         </>
       ) : (
@@ -56,7 +66,7 @@ export default function EvenSplitPanel({ total, setPeople, setSplitOption }) {
             ))}
           </div>
           <button onClick={editAmount}>Edit</button>
-          <button onClick={() => setSplitOption(null)}>Done</button>
+          <button onClick={handleDone}>Done</button> 
         </>
       )}
     </div>
