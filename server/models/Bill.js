@@ -10,6 +10,7 @@ const BillSchema = new mongoose.Schema({
   event_name: { type: String, required: true },
   event_date: { type: Date, required: true },
   items: [ItemSchema],
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 });
 
 const Bill = mongoose.model("Bill", BillSchema);

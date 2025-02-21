@@ -4,8 +4,8 @@ import ItemInput from "./ItemInput";
 import ItemList from "./ItemList";
 import ActionPanel from "./ActionPanel";
 import SplitPanel from "./SplitPanel";
-import AddBillButton from "./AddBillBtn";
 import EvenSplitPanel from "./EvenSplitPanel";
+import AddBillButton from "./AddBillBtn";
 import "../styles/BillForm.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
@@ -154,40 +154,53 @@ export default function BillForm() {
   /** ✅ Add to My Bills */
   async function handleAddBill() {
     if (!event || !eventDate || items.length === 0) {
-      alert("Please enter event details and at least one item before adding the bill.");
-      return;
+        alert("Please enter event details and at least one item before adding the bill.");
+        return;
     }
 
     const billData = {
-      event_name: event,
-      event_date: eventDate,
-      items: items.map(({ name, unitPrice, quantity }) => ({
-        item: name,
-        price: unitPrice,
-        quantity,
-      })),
+        event_name: event,
+        event_date: eventDate,
+        items: items.map(({ name, unitPrice, quantity }) => ({
+            item: name,
+            price: unitPrice,
+            quantity,
+        })),
     };
 
     try {
-      const response = await fetch(`${API_BASE_URL}/bills/add`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(billData),
-      });
+        const token = localStorage.getItem("token");
 
-      const data = await response.json();
-      if (response.ok) {
-        alert("Bill added successfully!");
-        setIsBillSubmitted(true); // ✅ Hide the "Add to My Bills" button permanently after submission
-      } else {
-        alert("Error adding bill: " + data.message);
-      }
+        console.log("Retrieved Token:", token); // 🔍 Log the token before sending
+
+        if (!token) {
+            alert("You must be logged in to add a bill.");
+            return;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/bills/add`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`, // ✅ Ensure token is included
+            },
+            body: JSON.stringify(billData),
+        });
+
+        console.log("Response Status:", response.status); // 🔍 Log response status
+
+        const data = await response.json();
+        if (response.ok) {
+            alert("Bill added successfully!");
+            setIsBillSubmitted(true);
+        } else {
+            alert("Error adding bill: " + data.message);
+        }
     } catch (error) {
-      alert("Failed to add bill. Please try again.");
+        console.error("Request Failed:", error);
+        alert("Failed to add bill. Please try again.");
     }
-  }
+}
 
   return (
     <div className={`bill-container ${isConfirmed ? "confirmed" : ""}`}>
@@ -232,7 +245,6 @@ export default function BillForm() {
             <h3>Items:</h3>
             <ItemList items={items} hideButtons={true} />
             <h3>Total: ${total.toFixed(2)}</h3>
-
             {!isBillSubmitted && <AddBillButton onClick={handleAddBill} />}
           </div>
         )}
