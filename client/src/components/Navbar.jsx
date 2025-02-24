@@ -17,7 +17,7 @@ export default function Navbar({ isAuthenticated, handleLogout }) {
       </span>
 
       <ul id="nav-list">
-        <li><Link to="/split-bill">Split Bill</Link></li>
+        <li><Link to="/create-bill">Split Bill</Link></li>
 
         {isAuthenticated && (
           <li><Link to="/my-bills">My Bills</Link></li>

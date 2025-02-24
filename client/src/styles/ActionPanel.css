@@ -4,33 +4,29 @@
   align-items: center;
   border-radius: 20px;
   border: 3px solid white;
-  opacity: 0;
+  opacity: 1;
   width: 100%;
-  max-width: 400px; 
+  min-width: 350px; 
+  max-width: 550px; 
   padding: 1rem;
   text-align: center;
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-  overflow: hidden; 
-  box-sizing: border-box; 
+  overflow: visible;
+  box-sizing: border-box;
 }
 
-/* Ensure the panel becomes visible when confirmed */
-.confirmed .action-panel {
-  opacity: 1;
-}
-
-/* Action Panel Buttons */
 .action-panel-btns {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+  justify-content: center;
+  justify-items: start;
   padding-top: 1rem;
-  justify-content: center; 
-  flex-wrap: wrap;
+  width: 100%;
 }
 
 .action-panel-btns button {
-  height: 100px; 
-  width: 100px; 
+  height: 120px; 
+  width: 120px;
   border-radius: 50%;
   display: flex;
   flex-direction: column;
@@ -50,41 +46,30 @@
 }
 
 .button-icon {
-  font-size: 1.4rem;
+  font-size: 1.3rem; 
   display: block;
 }
 
 .button-text {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   font-weight: 600;
 }
 
-/* 🔧 Fix alignment & button size on smaller screens */
+/* ✅ Medium Screens (Tablets) */
 @media screen and (max-width: 768px) {
   .action-panel {
-    width: 100%;
-    max-width: 350px;
-    padding: 1rem;
-  }
-
-  .confirmed .action-panel {
-    width: 100%;
-    margin-top: 20px;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    display: flex;
-    justify-content: center;
+    max-width: 400px;
+    padding: 0.8rem;
   }
 
   .action-panel-btns {
-    gap: 0.5rem;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .action-panel-btns button {
-    height: 90px;
-    width: 90px;
-    font-size: 0.8rem;
+    height: 100px;
+    width: 100px;
   }
 
   .button-icon {
@@ -92,26 +77,24 @@
   }
 
   .button-text {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
   }
 }
 
+/* ✅ Small Screens (Phones) */
 @media screen and (max-width: 480px) {
   .action-panel {
-    width: 100%;
     max-width: 320px;
-    padding: 0.8rem;
-    margin-top: 20px;
+    padding: 0.5rem;
   }
 
   .action-panel-btns {
-    gap: 0.3rem; /* Further reduced spacing */
+    grid-template-columns: repeat(3, 1fr); /* ✅ Still two per row */
   }
 
   .action-panel-btns button {
     height: 80px;
     width: 80px;
-    font-size: 0.75rem;
   }
 
   .button-icon {
@@ -119,6 +102,31 @@
   }
 
   .button-text {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
+  }
+}
+
+/* ✅ Extra Small Screens (Tiny Phones) */
+@media screen and (max-width: 320px) {
+  .action-panel {
+    max-width: 280px;
+    padding: 0.4rem;
+  }
+
+  .action-panel-btns {
+    grid-template-columns: repeat(3, 1fr); 
+  }
+
+  .action-panel-btns button {
+    height: 70px;
+    width: 70px;
+  }
+
+  .button-icon {
+    font-size: 0.9rem;
+  }
+
+  .button-text {
+    font-size: 0.6rem;
   }
 }

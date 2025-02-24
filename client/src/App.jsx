@@ -3,11 +3,13 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import SplitBill from "./pages/SplitBill";
+import CreateBill from "./pages/CreateBill";
+import BillOverview from "./pages/BillOverview"; 
 import MyBills from "./pages/MyBills";
+import SplitBill from "./pages/SplitBill";
 import Navbar from "./components/Navbar";
 
-// ✅ Corrected PrivateRoute to Pass Props
+// ✅ Private Route for authentication
 const PrivateRoute = ({ children, isAuthenticated }) => {
   return isAuthenticated ? children : <Navigate to="/login" />;
 };
@@ -19,14 +21,13 @@ function App() {
     const checkAuth = () => {
       const token = !!localStorage.getItem("token");
       if (token !== isAuthenticated) {
-        setIsAuthenticated(token); 
+        setIsAuthenticated(token);
       }
     };
-  
+
     window.addEventListener("storage", checkAuth);
     return () => window.removeEventListener("storage", checkAuth);
   }, [isAuthenticated]);
-  
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -44,21 +45,17 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
             <Route path="/register" element={<Register setIsAuthenticated={setIsAuthenticated} />} />
-            <Route
-              path="/split-bill"
-              element={
-                <SplitBill />
-                // <PrivateRoute isAuthenticated={isAuthenticated}>
-                //   <SplitBill />
-                // </PrivateRoute>
-              }
-            />
+            <Route path="/split-bill" element={<SplitBill />} />
+
+            {/* ✅ New routes for bill creation & overview */}
+            <Route path="/create-bill" element={<CreateBill />} />
+            <Route path="/bill-overview" element={<BillOverview />} />
 
             <Route
               path="/my-bills"
               element={
                 <PrivateRoute isAuthenticated={isAuthenticated}>
-                  <MyBills setIsAuthenticated={setIsAuthenticated} />
+                  <MyBills />
                 </PrivateRoute>
               }
             />

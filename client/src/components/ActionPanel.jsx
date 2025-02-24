@@ -1,23 +1,27 @@
 import React from "react";
+import EditBillButton from "./buttons/EditBillButton";
+import DeleteBillButton from "./buttons/DeleteBillButton";
+import AddBillButton from "./buttons/AddBillButton";
+import SplitEvenlyButton from "./buttons/SplitEvenlyButton";
+import AssignItemsButton from "./buttons/AssignItemsButton";
 import "../styles/ActionPanel.css";
 
-export default function ActionPanel({ editBill, handleSplitOption, splitOption, handleAddBill, isBillSubmitted }) {
+export default function ActionPanel({
+  editBill,
+  handleSplitOption,
+  handleAddBill,
+  handleDeleteBill,
+  isBillSubmitted,
+}) {
   return (
     <div className="action-panel">
-      <h2>Choose How to Split</h2>
+      <h2>Bill Options</h2>
       <div className="action-panel-btns">
-        <button onClick={editBill}>
-          <span className="button-icon">✏️</span>
-          <span className="button-text">Edit Bill</span>
-        </button>
-        <button onClick={() => handleSplitOption("equal")}>
-          <span className="button-icon">🔄</span>
-          <span className="button-text">Split Evenly</span>
-        </button>
-        <button onClick={() => handleSplitOption("custom")} disabled>
-          <span className="button-icon">👥</span>
-          <span className="button-text">Assign Items</span>
-        </button>
+        <EditBillButton onClick={editBill} />
+        <SplitEvenlyButton onClick={() => handleSplitOption("equal")} />
+        <AssignItemsButton onClick={() => handleSplitOption("custom")} />
+        <AddBillButton onClick={handleAddBill} isBillSubmitted={isBillSubmitted} />
+        <DeleteBillButton onClick={handleDeleteBill} />
       </div>
     </div>
   );

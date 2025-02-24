@@ -28,14 +28,14 @@ export default function EvenSplitPanel({ total, setPeople, onDone, onCancel }) {
   function handleCancel() {
     console.log("Cancel button clicked");
     if (onCancel) {
-      onCancel(); // ✅ Fix: Use onCancel instead of setSplitOption
+      onCancel(); 
     }
   }
 
   function handleDone() {
     console.log("Done button clicked, people:", splitAmounts);
     if (onDone) {
-      onDone(splitAmounts); // ✅ Fix: Pass data back to BillForm
+      onDone(splitAmounts); 
     }
   }
 
