@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function AddBillButton({ onClick, isBillSubmitted }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleClick = async () => {
+    if (isBillSubmitted || isSubmitting) return;
+
+    setIsSubmitting(true);
+
+    try {
+      const success = await onClick();
+      if (success) {
+        console.log("Bill successfully added.");
+      }
+    } catch (error) {
+      console.error("Error adding bill:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <button onClick={onClick} disabled={isBillSubmitted}>
+    <button onClick={handleClick} disabled={isSubmitting || isBillSubmitted}>
       <span className="button-icon">💸</span>
       <span className="button-text">
-        {isBillSubmitted ? "Already Added" : "Add to My Bills"}
+        {isSubmitting ? "Adding..." : isBillSubmitted ? "Already Added" : "Add to My Bills"}
       </span>
     </button>
   );

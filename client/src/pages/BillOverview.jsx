@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ItemList from "../components/ItemList";
 import ActionPanel from "../components/ActionPanel";
 import EvenSplitPanel from "../components/EvenSplitPanel";
+import { loadBillFromStorage, saveBillToStorage, resetStoredBill } from "../utils/localStorageUtils";
 import "../styles/BillOverview.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
@@ -12,17 +13,46 @@ export default function BillOverview() {
   const [bill, setBill] = useState(null);
   const [splitOption, setSplitOption] = useState(null);
   const [people, setPeople] = useState([]);
+  const [isBillSubmitted, setIsBillSubmitted] = useState(false);
 
   useEffect(() => {
-    const savedBill = JSON.parse(localStorage.getItem("billFormState"));
+    const savedBill = loadBillFromStorage();
     if (savedBill) {
       setBill(savedBill);
+      checkIfBillExists(savedBill);
     } else {
       navigate("/create-bill");
     }
   }, [navigate]);
 
+  const checkIfBillExists = async (bill) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("You are not logged in. Please log in and try again.");
+        return;
+      }
+      const response = await fetch(`${API_BASE_URL}/bills/check`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({ event_name: bill.event, event_date: bill.eventDate }),
+      });
+  
+      const data = await response.json();
+      if (response.ok && data.exists) {
+        setIsBillSubmitted(true);
+      }
+    } catch (error) {
+      console.error("Error checking bill existence:", error);
+    }
+  };
+  
+
   const editBill = () => {
+    setBill((prev) => ({ ...prev, isBillSubmitted: false }));
     navigate("/create-bill");
   };
 
@@ -42,42 +72,59 @@ export default function BillOverview() {
   const handleAddBill = async () => {
     if (!bill || !bill.event || !bill.eventDate || bill.items.length === 0) {
       alert("Please enter event details and at least one item before adding the bill.");
-      return;
+      return false;
     }
-
+  
     try {
+      const token = localStorage.getItem("token"); 
+      if (!token) {
+        alert("You are not logged in. Please log in and try again.");
+        return false;
+      }
+  
       const response = await fetch(`${API_BASE_URL}/bills/add`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`, 
+        },
         body: JSON.stringify({
           event_name: bill.event,
           event_date: bill.eventDate,
-          items: bill.items.map(({ name, unitPrice, quantity }) => ({
+          items: bill.items.map(({ name, price, quantity }) => ({
             item: name,
-            price: unitPrice,
+            price,
             quantity,
           })),
         }),
       });
-
+  
       if (response.ok) {
-        setBill((prevBill) => ({ ...prevBill, isBillSubmitted: true }));
-        localStorage.setItem("billFormState", JSON.stringify({ ...bill, isBillSubmitted: true }));
+        setIsBillSubmitted(true);
         alert("Bill added successfully!");
+        return true;
       } else {
-        alert("Error adding bill.");
+        const errorData = await response.json();
+        alert(`Error adding bill: ${errorData.message || "Unauthorized"}`);
+        return false;
       }
     } catch (error) {
       alert("Failed to add bill.");
+      console.error("API error:", error);
+      return false;
     }
   };
+  
 
   const handleDeleteBill = () => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this bill?");
-    if (confirmDelete) {
-      localStorage.removeItem("billFormState");
+    if (window.confirm("Are you sure you want to delete this bill?")) {
+      resetStoredBill();
       setBill(null);
-      navigate("/create-bill");
+      setIsBillSubmitted(false); 
+
+      setTimeout(() => {
+        navigate("/create-bill");
+      }, 100);
     }
   };
 
@@ -89,7 +136,9 @@ export default function BillOverview() {
             <h2>{bill.event}</h2>
             <h3>{bill.eventDate}</h3>
             <ItemList items={bill.items} hideButtons={true} />
-            <h3>Total: ${bill.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}</h3>
+            <h3>
+              Total: ${bill.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}
+            </h3>
           </div>
 
           <div className="bill-overview-action-container">
@@ -107,7 +156,8 @@ export default function BillOverview() {
                   handleSplitOption={handleSplitOption}
                   handleAddBill={handleAddBill}
                   handleDeleteBill={handleDeleteBill}
-                  isBillSubmitted={bill.isBillSubmitted}
+                  isBillSubmitted={isBillSubmitted} 
+                  setBill={setBill}
                 />
               )
             )}

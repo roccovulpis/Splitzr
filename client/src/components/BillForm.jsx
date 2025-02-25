@@ -13,7 +13,6 @@ import "../styles/BillForm.css";
 export default function BillForm() {
   const navigate = useNavigate();
 
-  // Load from local storage or set defaults
   const [state, setState] = useState(loadBillFromStorage());
 
   useEffect(() => {
@@ -25,11 +24,11 @@ export default function BillForm() {
       ...state,
       isConfirmed: true,
       isEditingEvent: false,
-      isBillSubmitted: false, // Reset for new submission
+      isBillSubmitted: false, 
     };
     setState(newBill);
     saveBillToStorage(newBill);
-    navigate("/bill-overview"); // Redirect to overview after confirming
+    navigate("/bill-overview");
   };
 
   const resetBill = () => {
@@ -65,7 +64,7 @@ export default function BillForm() {
             <h3>Items:</h3>
             <ItemList items={state.items} hideButtons={true} />
             <h3>Total: ${state.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}</h3>
-            {!state.isBillSubmitted && <AddBillButton state={state} setState={setState} />}
+            {!state.isBillSubmitted && <AddBillButton onClick={() => navigate("/bill-overview")} />}
           </div>
         )}
       </div>
