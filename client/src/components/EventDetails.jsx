@@ -4,25 +4,27 @@ import '../styles/EventDetails.css'
 export default function EventDetails({ event, eventDate, setEvent, setEventDate, isEditing, setIsEditing, isConfirmed }) {
   return isEditing ? (
     <>
-      <h2 className='event-header'>Event</h2>
       <div className="event-details-container">
-        <input
-          type="text"
-          id="event-name"
-          placeholder="Event Name"
-          value={event}
-          onChange={(e) => setEvent(e.target.value)}
-        />
-
-        {/* Wrap date input and button in a new div to keep them together */}
-        <div className="event-date-group">
+        <h2 className='event-header'>Event</h2>
+        <div className='event-details-input-container'>
           <input
-            type="date"
-            id="date"
-            value={eventDate}
-            onChange={(e) => setEventDate(e.target.value)}
+            type="text"
+            id="event-name"
+            placeholder="Event Name"
+            value={event}
+            onChange={(e) => setEvent(e.target.value)}
           />
-          <button className="event-confirm-btn" onClick={() => setIsEditing(false)}>✔️</button>
+
+          {/* Wrap date input and button in a new div to keep them together */}
+          <div className="event-date-group">
+            <input
+              type="date"
+              id="date"
+              value={eventDate}
+              onChange={(e) => setEventDate(e.target.value)}
+            />
+            <button className="event-confirm-btn" onClick={() => setIsEditing(false)}>✔️</button>
+          </div>
         </div>
       </div>
     </>

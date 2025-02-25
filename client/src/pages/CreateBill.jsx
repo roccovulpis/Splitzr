@@ -4,6 +4,7 @@ import EventDetails from "../components/EventDetails";
 import ItemInput from "../components/ItemInput";
 import ItemList from "../components/ItemList";
 import "../styles/BillForm.css";
+import "../styles/CreateBill.css";
 
 export default function CreateBill() {
   const navigate = useNavigate();
@@ -120,7 +121,9 @@ export default function CreateBill() {
   };
 
   return (
-    <div className="bill-create-container">
+    <>
+      <h1 className="create-bill-heading">Create a Bill</h1>
+      <div className="bill-create-container">
       <div className="bill-create-panel">
         <EventDetails
           event={state.event}
@@ -153,5 +156,6 @@ export default function CreateBill() {
         </div>
       </div>
     </div>
+    </>
   );
 }

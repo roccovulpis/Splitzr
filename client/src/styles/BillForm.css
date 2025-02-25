@@ -3,13 +3,12 @@
   display: flex;
   justify-content: center;
   position: relative;
-  padding: 1rem;
+  
 }
 
 /* Bill Create Panel */
 .bill-create-panel {
   padding: 1rem;
-  border: 3px solid white;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -17,7 +16,21 @@
   min-height: 650px;
   overflow: hidden;
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
+
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  will-change: transform, opacity;
+
+}
+
+.confirmed-items {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
 }
 
 /* Buttons Section */
@@ -78,8 +91,8 @@ button:hover {
   .bill-create-container {
     flex-direction: column;
     align-items: center;
-    width: 95%;
-    max-width: 100%;
+    width: 110%;
+    max-width: 500px;
     padding: 0 1rem;
   }
 

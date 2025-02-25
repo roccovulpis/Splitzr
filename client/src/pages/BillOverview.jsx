@@ -134,7 +134,9 @@ export default function BillOverview() {
   };
 
   return (
-    <div className="bill-overview-container">
+    <>
+      <h1 className="overview-heading">Overview</h1>
+      <div className="bill-overview-container">
       {bill ? (
         <div className="bill-overview-content">
           <div className="bill-overview-panel">
@@ -171,5 +173,7 @@ export default function BillOverview() {
         <h2>No submitted bills found.</h2>
       )}
     </div>
+    </>
+    
   );
 }

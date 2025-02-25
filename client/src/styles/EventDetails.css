@@ -1,15 +1,30 @@
 .event-details-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
+    gap: 10px;
     width: 90%;
     max-width: 800px;
     margin: auto;
-    gap: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
 }
 
-.event-details-container input {
+.event-header {
+    margin: 0 auto;
+}
+
+.event-details-input-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: nowrap;
+}
+
+.event-details-input-container input {
     height: 40px;
     padding: 5px;
     text-align: center;
@@ -42,12 +57,16 @@
     white-space: nowrap;
 }
 
-/* Align event name and pencil button inline */
 .event-summary {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
+
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
 }
 
 .event-summary-content {
@@ -63,7 +82,7 @@
     font-size: 1.2rem;
     cursor: pointer;
     white-space: nowrap;
-    margin-left: .5rem;
+    margin-left: 0.5rem;
 }
 
 @media screen and (max-width: 768px) {
@@ -71,6 +90,13 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
+    }
+
+    .event-details-input-container {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        align-items: center;
     }
 
     .event-date-group {

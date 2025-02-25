@@ -9,13 +9,15 @@ import "../styles/ActionPanel.css";
 export default function ActionPanel({ editBill, handleSplitOption, handleAddBill, handleDeleteBill, isBillSubmitted, setBill }) {
   return (
     <div className="action-panel">
+      <div className="action-panel-content">
       <h2>Bill Options</h2>
-      <div className="action-panel-btns">
-        <EditButton onClick={editBill} />
-        <SplitEvenlyButton onClick={() => handleSplitOption("equal")} />
-        <AssignItemsButton onClick={() => handleSplitOption("custom")} />
-        <AddBillButton onClick={handleAddBill} isBillSubmitted={isBillSubmitted} setBill={setBill} />
-        <DeleteButton onClick={handleDeleteBill} setBill={setBill} />
+        <div className="action-panel-btns">
+          <EditButton onClick={editBill} />
+          <SplitEvenlyButton onClick={() => handleSplitOption("equal")} />
+          <AssignItemsButton onClick={() => handleSplitOption("custom")} />
+          <AddBillButton onClick={handleAddBill} isBillSubmitted={isBillSubmitted} setBill={setBill} />
+          <DeleteButton onClick={handleDeleteBill} setBill={setBill} />
+        </div>
       </div>
     </div>
   );
