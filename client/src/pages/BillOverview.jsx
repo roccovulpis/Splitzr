@@ -18,6 +18,14 @@ export default function BillOverview() {
   useEffect(() => {
     const savedBill = loadBillFromStorage();
     if (savedBill) {
+      // Check if required fields are missing
+      if (!savedBill.event || !savedBill.eventDate || !savedBill.items || savedBill.items.length < 1) {
+        window.alert(
+          "Bill is missing required details. Please ensure you have entered an event name, selected an event date, and added at least one item."
+        );
+        navigate("/create-bill");
+        return;
+      }
       setBill(savedBill);
       checkIfBillExists(savedBill);
     } else {
@@ -29,18 +37,18 @@ export default function BillOverview() {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        alert("You are not logged in. Please log in and try again.");
+        window.alert("You are not logged in. Please log in and try again.");
+        navigate("/login");
         return;
       }
       const response = await fetch(`${API_BASE_URL}/bills/check`, {
         method: "POST",
-        headers: {
+        headers: { 
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({ event_name: bill.event, event_date: bill.eventDate }),
       });
-  
       const data = await response.json();
       if (response.ok && data.exists) {
         setIsBillSubmitted(true);
@@ -49,7 +57,6 @@ export default function BillOverview() {
       console.error("Error checking bill existence:", error);
     }
   };
-  
 
   const editBill = () => {
     setBill((prev) => ({ ...prev, isBillSubmitted: false }));
@@ -70,15 +77,15 @@ export default function BillOverview() {
   };
 
   const handleAddBill = async () => {
-    if (!bill || !bill.event || !bill.eventDate || bill.items.length === 0) {
-      alert("Please enter event details and at least one item before adding the bill.");
+    if (!bill || !bill.event || !bill.eventDate || !bill.items || bill.items.length < 1) {
+      window.alert("Please enter event details and add at least one item before adding the bill.");
       return false;
     }
   
     try {
-      const token = localStorage.getItem("token"); 
+      const token = localStorage.getItem("token");
       if (!token) {
-        alert("You are not logged in. Please log in and try again.");
+        window.alert("You are not logged in. Please log in and try again.");
         return false;
       }
   
@@ -86,7 +93,7 @@ export default function BillOverview() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`, 
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify({
           event_name: bill.event,
@@ -101,27 +108,25 @@ export default function BillOverview() {
   
       if (response.ok) {
         setIsBillSubmitted(true);
-        alert("Bill added successfully!");
+        window.alert("Bill added successfully!");
         return true;
       } else {
         const errorData = await response.json();
-        alert(`Error adding bill: ${errorData.message || "Unauthorized"}`);
+        window.alert(`Error adding bill: ${errorData.message || "Unauthorized"}`);
         return false;
       }
     } catch (error) {
-      alert("Failed to add bill.");
+      window.alert("Failed to add bill.");
       console.error("API error:", error);
       return false;
     }
   };
-  
 
   const handleDeleteBill = () => {
     if (window.confirm("Are you sure you want to delete this bill?")) {
       resetStoredBill();
       setBill(null);
-      setIsBillSubmitted(false); 
-
+      setIsBillSubmitted(false);
       setTimeout(() => {
         navigate("/create-bill");
       }, 100);
@@ -140,7 +145,6 @@ export default function BillOverview() {
               Total: ${bill.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}
             </h3>
           </div>
-
           <div className="bill-overview-action-container">
             {splitOption === "equal" ? (
               <EvenSplitPanel
@@ -156,7 +160,7 @@ export default function BillOverview() {
                   handleSplitOption={handleSplitOption}
                   handleAddBill={handleAddBill}
                   handleDeleteBill={handleDeleteBill}
-                  isBillSubmitted={isBillSubmitted} 
+                  isBillSubmitted={isBillSubmitted}
                   setBill={setBill}
                 />
               )

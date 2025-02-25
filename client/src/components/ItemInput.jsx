@@ -37,7 +37,7 @@ export default function ItemInput({
         value={quantity}
         onChange={handleQuantityInputChange}
       />
-      <button className="add-btn" onClick={addItem}> {/* ✅ Call `addItem` here */}
+      <button className="add-btn" onClick={addItem}> 
         {editingIndex !== null ? '✔️' : 'Add'}
       </button>
       {editingIndex !== null && (

@@ -148,7 +148,7 @@ export default function CreateBill() {
         <h3>Total: ${state.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}</h3>
 
         <div className="bill-panel-btns">
-          <button className="bill-confirm-btn" onClick={confirmBill}>Create Bill</button>
+          <button className="bill-confirm-btn" onClick={confirmBill}>Confirm Bill</button>
           <button className="reset-bill-btn" onClick={resetBill}>Reset Bill</button>
         </div>
       </div>
