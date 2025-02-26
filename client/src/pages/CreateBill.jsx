@@ -10,7 +10,7 @@ export default function CreateBill() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // First, check for an edited bill in navigation state.
+  // Get initial state from navigation state, localStorage, or defaults.
   const getInitialState = () => {
     if (location.state && location.state.editedBill) {
       return location.state.editedBill;
@@ -40,19 +40,19 @@ export default function CreateBill() {
 
   const [state, setState] = useState(getInitialState());
 
-  // Persist form state to localStorage
+  // Persist form state to localStorage so the form is retained on refresh.
   useEffect(() => {
     localStorage.setItem("billFormState", JSON.stringify(state));
   }, [state]);
 
-  // Clear saved form state on unmount so a fresh form loads next time
+  // Clear saved form state when the component unmounts.
   useEffect(() => {
     return () => {
       localStorage.removeItem("billFormState");
     };
   }, []);
 
-  // Validate required fields and finalize the bill before navigating to overview
+  // Finalize the bill and navigate to the overview page.
   const confirmBill = () => {
     if (!state.event || !state.eventDate || state.items.length < 1) {
       window.alert(
@@ -92,6 +92,7 @@ export default function CreateBill() {
     }
   };
 
+  // Add a new item or update an existing one.
   const addItem = () => {
     const unitPrice = parseFloat(state.itemPrice) || 0;
     const qty = parseInt(state.quantity, 10) || 0;

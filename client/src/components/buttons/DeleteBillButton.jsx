@@ -4,16 +4,19 @@ import { resetStoredBill } from "../../utils/localStorageUtils";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-export default function DeleteBillButton({ billId, setBill }) {
+export default function DeleteBillButton({ billId, setBill, disabled }) {
   const navigate = useNavigate(); 
 
   const handleDelete = async () => {
+    if (disabled) {
+      window.alert("Please log in to use this feature.");
+      return;
+    }
     if (!billId) {
       console.error("DeleteBillButton: No bill ID provided for deletion.");
       window.alert("Error: Bill ID is missing. Cannot delete bill.");
       return;
     }
-
     if (window.confirm("Are you sure you want to delete this bill?")) {
       try {
         const token = localStorage.getItem("token");
@@ -22,7 +25,6 @@ export default function DeleteBillButton({ billId, setBill }) {
           navigate("/login");
           return;
         }
-
         console.log("🔍 Sending DELETE request for bill ID:", billId);
         const response = await fetch(`${API_BASE_URL}/bills/${billId}`, {
           method: "DELETE",
@@ -31,11 +33,9 @@ export default function DeleteBillButton({ billId, setBill }) {
             Authorization: `Bearer ${token}`,
           },
         });
-
         console.log("🔍 Response status:", response.status);
         const responseData = await response.json();
         console.log("🔍 Response data:", responseData);
-
         if (response.ok) {
           window.alert("Bill deleted successfully!");
           resetStoredBill();
@@ -52,9 +52,11 @@ export default function DeleteBillButton({ billId, setBill }) {
   };
 
   return (
-    <button onClick={handleDelete}>
+    <button onClick={handleDelete} disabled={disabled}>
       <span className="button-icon">❌</span>
-      <span className="button-text">Delete Bill</span>
+      <span className="button-text">
+        {disabled ? "Log in to delete" : "Delete Bill"}
+      </span>
     </button>
   );
 }

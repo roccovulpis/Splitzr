@@ -16,6 +16,9 @@ export default function BillOverview() {
   const [people, setPeople] = useState([]);
   const [isBillSubmitted, setIsBillSubmitted] = useState(false);
 
+  // Check if the user is logged in by looking for a token in localStorage.
+  const isLoggedIn = Boolean(localStorage.getItem("token"));
+
   // Ref to prevent infinite loop on checkIfBillExists
   const hasCheckedRef = useRef(false);
 
@@ -73,19 +76,19 @@ export default function BillOverview() {
     }
   }, [bill, navigate, navState]);
 
+  // Modified: If no token exists, skip the API check.
   const checkIfBillExists = async (billObj) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Guest mode: Skipping bill existence check since no token is present.");
+      return;
+    }
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        window.alert("You are not logged in. Please log in and try again.");
-        navigate("/login");
-        return;
-      }
       const response = await fetch(`${API_BASE_URL}/bills/check`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify({
           event_name: billObj.event,
@@ -126,6 +129,10 @@ export default function BillOverview() {
   };
 
   const handleAddBill = async () => {
+    if (!isLoggedIn) {
+      window.alert("Please log in to use this feature.");
+      return false;
+    }
     if (
       !bill ||
       !bill.event ||
@@ -140,10 +147,6 @@ export default function BillOverview() {
     }
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        window.alert("You are not logged in. Please log in and try again.");
-        return false;
-      }
       const payload = {
         event_name: bill.event,
         event_date: bill.eventDate,
@@ -158,7 +161,7 @@ export default function BillOverview() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          "Authorization": token ? `Bearer ${token}` : "",
         },
         body: JSON.stringify(payload),
       });
@@ -182,6 +185,10 @@ export default function BillOverview() {
   };
 
   const handleDeleteBill = () => {
+    if (!isLoggedIn) {
+      window.alert("Please log in to use these features.");
+      return;
+    }
     if (window.confirm("Are you sure you want to delete this bill?")) {
       resetStoredBill();
       setBill(null);
@@ -233,7 +240,9 @@ export default function BillOverview() {
                 isBillSubmitted={isBillSubmitted}
                 setBill={setBill}
                 billId={bill._id}
+                isLoggedIn={isLoggedIn}
               />
+
             )}
           </div>
         </div>
