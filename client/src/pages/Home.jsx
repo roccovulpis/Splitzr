@@ -9,14 +9,25 @@ const Footer = lazy(() => import('../components/Footer'));
 export default function Home() {
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>Loading Main Content...</div>}>
         <HomeMainContent />
-        <hr />
-        <div className="middle-content">
+      </Suspense>
+
+      <hr />
+
+      <div className="middle-content">
+        <Suspense fallback={<div>Loading Features...</div>}>
           <HomeFeatureHighlights />
-        </div>
+        </Suspense>
+      </div>
+
+      <Suspense fallback={<div>Loading Testimonials...</div>}>
         <HomeTestimonials />
-        <hr />
+      </Suspense>
+
+      <hr />
+
+      <Suspense fallback={<div>Loading Footer...</div>}>
         <Footer />
       </Suspense>
     </div>
