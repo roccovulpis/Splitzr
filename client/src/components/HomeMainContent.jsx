@@ -25,7 +25,7 @@ const HomeMainContent = () => {
         </div>
 
         <button id="home-split-btn">
-          <Link to="/split-bill">Start Splitting Now</Link>
+          <Link to="/create-bill">Start Splitting Now</Link>
         </button>
       </div>
 

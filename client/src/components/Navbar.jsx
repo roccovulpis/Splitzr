@@ -23,17 +23,19 @@ const Navbar = ({ isAuthenticated, handleLogout }) => {
 
   return (
     <nav>
-      <Link to="/">
+      <Link to="/" onClick={(e) => handleNavigation('/', e)}>
         <img src={billIcon} alt="bill" id="nav-logo" />
       </Link>
 
       <span id="nav-title">
-        <Link to="/">Splitzr</Link>
+        <Link to="/" onClick={(e) => handleNavigation('/', e)}>Splitzr</Link>
       </span>
 
       <ul id="nav-list">
         <li>
-          <Link to="/create-bill">Split Bill</Link>
+          <Link to="/create-bill" onClick={(e) => handleNavigation('/create-bill', e)}>
+            Split Bill
+          </Link>
         </li>
 
         {isAuthenticated && (
@@ -66,12 +68,15 @@ const Navbar = ({ isAuthenticated, handleLogout }) => {
         )}
       </ul>
 
-      {/* Logout Confirmation Modal */}
       {showLogoutConfirm && (
         <div className="logout-modal">
           <p>Are you sure you want to log out?</p>
-          <button className="confirm-btn" onClick={handleLogout}>Yes</button>
-          <button className="cancel-btn" onClick={() => setShowLogoutConfirm(false)}>No</button>
+          <button className="confirm-btn" onClick={handleLogout}>
+            Yes
+          </button>
+          <button className="cancel-btn" onClick={() => setShowLogoutConfirm(false)}>
+            No
+          </button>
         </div>
       )}
     </nav>
