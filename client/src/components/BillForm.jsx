@@ -13,8 +13,12 @@ import "../styles/BillForm.css";
 export default function BillForm() {
   const navigate = useNavigate();
   const formRef = useRef(null);
-  // Initialize state with default values if none are stored
-  const [state, setState] = useState(loadBillFromStorage() || { event: "", eventDate: "", items: [] });
+  
+  // Initialize state with default values if none are stored.
+  // Note: Added a billId field to ensure it's defined.
+  const [state, setState] = useState(
+    loadBillFromStorage() || { billId: "default-bill-id", event: "", eventDate: "", items: [] }
+  );
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -65,9 +69,31 @@ export default function BillForm() {
   const resetBill = () => {
     if (window.confirm("Are you sure you want to reset the bill?")) {
       resetStoredBill();
-      setState(loadBillFromStorage() || { event: "", eventDate: "", items: [] });
+      setState(loadBillFromStorage() || { billId: "default-bill-id", event: "", eventDate: "", items: [] });
       setErrors({});
     }
+  };
+
+  // Callback for adding an item – passed to ItemInput.
+  const addItem = (newItem) => {
+    setState((prevState) => ({
+      ...prevState,
+      items: [...prevState.items, newItem],
+    }));
+  };
+
+  // Callback for editing an item (if implemented)
+  const startEditItem = (index) => {
+    console.log("Edit item at index:", index);
+    // Implement editing logic if desired.
+  };
+
+  // Callback for removing an item
+  const removeItem = (index) => {
+    setState((prevState) => ({
+      ...prevState,
+      items: prevState.items.filter((_, i) => i !== index),
+    }));
   };
 
   return (
@@ -91,12 +117,19 @@ export default function BillForm() {
 
         {!state.isConfirmed ? (
           <>
-            <ItemInput state={state} setState={setState} />
-            <ItemList items={state.items} setState={setState} />
-            {/* Display error message for items */}
+            {/* IMPORTANT: We now pass the addItem callback via onAddItem */}
+            <ItemInput onAddItem={addItem} />
+            <ItemList
+              items={state.items}
+              removeItem={removeItem}
+              startEditItem={startEditItem}
+            />
             {errors.items && <p className="error">{errors.items}</p>}
             <h3 className="total-display">
-              Total: ${state.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}
+              Total: $
+              {state.items
+                .reduce((sum, item) => sum + item.price * item.quantity, 0)
+                .toFixed(2)}
             </h3>
             <div className="bill-panel-btns">
               <button type="submit" className="bill-confirm-btn">
@@ -112,16 +145,22 @@ export default function BillForm() {
             <h3>Items:</h3>
             <ItemList items={state.items} hideButtons={true} />
             <h3>
-              Total: ${state.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}
+              Total: $
+              {state.items
+                .reduce((sum, item) => sum + item.price * item.quantity, 0)
+                .toFixed(2)}
             </h3>
-            {!state.isBillSubmitted && <AddBillButton onClick={() => navigate("/bill-overview")} />}
+            {!state.isBillSubmitted && (
+              <AddBillButton onClick={() => navigate("/bill-overview")} />
+            )}
           </div>
         )}
       </div>
 
       {state.isConfirmed && (
         <div className="right-panel">
-          {!state.splitOption && <ActionPanel state={state} setState={setState} />}
+          {/* Pass billId to ActionPanel if needed by its DeleteButton */}
+          {!state.splitOption && <ActionPanel state={state} setState={setState} billId={state.billId} />}
           {state.splitOption === "equal" && <EvenSplitPanel state={state} setState={setState} />}
           {state.splitOption === "custom" && <SplitPanel people={state.people} />}
         </div>

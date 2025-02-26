@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import billIcon from '../assets/bill.png';
 import '../styles/Navbar.css';
 
-export default function Navbar({ isAuthenticated, handleLogout }) {
+const Navbar = ({ isAuthenticated, handleLogout }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
@@ -38,10 +38,7 @@ export default function Navbar({ isAuthenticated, handleLogout }) {
 
         {isAuthenticated && (
           <li>
-            <a
-              href="/my-bills"
-              onClick={(e) => handleNavigation('/my-bills', e)}
-            >
+            <a href="/my-bills" onClick={(e) => handleNavigation('/my-bills', e)}>
               My Bills
             </a>
           </li>
@@ -50,18 +47,12 @@ export default function Navbar({ isAuthenticated, handleLogout }) {
         {!isAuthenticated ? (
           <>
             <li>
-              <a
-                href="/login"
-                onClick={(e) => handleNavigation('/login', e)}
-              >
+              <a href="/login" onClick={(e) => handleNavigation('/login', e)}>
                 Login
               </a>
             </li>
             <li className="register-li">
-              <a
-                href="/register"
-                onClick={(e) => handleNavigation('/register', e)}
-              >
+              <a href="/register" onClick={(e) => handleNavigation('/register', e)}>
                 Sign Up
               </a>
             </li>
@@ -79,14 +70,12 @@ export default function Navbar({ isAuthenticated, handleLogout }) {
       {showLogoutConfirm && (
         <div className="logout-modal">
           <p>Are you sure you want to log out?</p>
-          <button className="confirm-btn" onClick={handleLogout}>
-            Yes
-          </button>
-          <button className="cancel-btn" onClick={() => setShowLogoutConfirm(false)}>
-            No
-          </button>
+          <button className="confirm-btn" onClick={handleLogout}>Yes</button>
+          <button className="cancel-btn" onClick={() => setShowLogoutConfirm(false)}>No</button>
         </div>
       )}
     </nav>
   );
-}
+};
+
+export default React.memo(Navbar);
