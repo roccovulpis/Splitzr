@@ -40,23 +40,23 @@ const Navbar = ({ isAuthenticated, handleLogout }) => {
 
         {isAuthenticated && (
           <li>
-            <a href="/my-bills" onClick={(e) => handleNavigation('/my-bills', e)}>
+            <Link to="/my-bills" onClick={(e) => handleNavigation('/my-bills', e)}>
               My Bills
-            </a>
+            </Link>
           </li>
         )}
 
         {!isAuthenticated ? (
           <>
             <li>
-              <a href="/login" onClick={(e) => handleNavigation('/login', e)}>
+              <Link to="/login" onClick={(e) => handleNavigation('/login', e)}>
                 Login
-              </a>
+              </Link>
             </li>
             <li className="register-li">
-              <a href="/register" onClick={(e) => handleNavigation('/register', e)}>
+              <Link to="/register" onClick={(e) => handleNavigation('/register', e)}>
                 Sign Up
-              </a>
+              </Link>
             </li>
           </>
         ) : (
