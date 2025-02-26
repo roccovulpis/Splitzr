@@ -1,10 +1,25 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import billIcon from '../assets/bill.png';
 import '../styles/Navbar.css';
 
 export default function Navbar({ isAuthenticated, handleLogout }) {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+  const handleNavigation = (to, e) => {
+    if (location.pathname === '/create-bill' && to !== '/create-bill') {
+      const confirmLeave = window.confirm(
+        "Leaving this page will lose your unsaved split bill information. Are you sure you want to leave?"
+      );
+      if (!confirmLeave) {
+        e.preventDefault();
+        return;
+      }
+    }
+    navigate(to);
+  };
 
   return (
     <nav>
@@ -17,20 +32,45 @@ export default function Navbar({ isAuthenticated, handleLogout }) {
       </span>
 
       <ul id="nav-list">
-        <li><Link to="/create-bill">Split Bill</Link></li>
+        <li>
+          <Link to="/create-bill">Split Bill</Link>
+        </li>
 
         {isAuthenticated && (
-          <li><Link to="/my-bills">My Bills</Link></li>
+          <li>
+            <a
+              href="/my-bills"
+              onClick={(e) => handleNavigation('/my-bills', e)}
+            >
+              My Bills
+            </a>
+          </li>
         )}
 
         {!isAuthenticated ? (
           <>
-            <li><Link to="/login">Login</Link></li>
-            <li className='register-li'><Link to="/register">Sign Up</Link></li>
+            <li>
+              <a
+                href="/login"
+                onClick={(e) => handleNavigation('/login', e)}
+              >
+                Login
+              </a>
+            </li>
+            <li className="register-li">
+              <a
+                href="/register"
+                onClick={(e) => handleNavigation('/register', e)}
+              >
+                Sign Up
+              </a>
+            </li>
           </>
         ) : (
           <li>
-            <button id="logout-btn" onClick={() => setShowLogoutConfirm(true)}>Logout</button>
+            <button id="logout-btn" onClick={() => setShowLogoutConfirm(true)}>
+              Logout
+            </button>
           </li>
         )}
       </ul>
@@ -39,8 +79,12 @@ export default function Navbar({ isAuthenticated, handleLogout }) {
       {showLogoutConfirm && (
         <div className="logout-modal">
           <p>Are you sure you want to log out?</p>
-          <button className="confirm-btn" onClick={handleLogout}>Yes</button>
-          <button className="cancel-btn" onClick={() => setShowLogoutConfirm(false)}>No</button>
+          <button className="confirm-btn" onClick={handleLogout}>
+            Yes
+          </button>
+          <button className="cancel-btn" onClick={() => setShowLogoutConfirm(false)}>
+            No
+          </button>
         </div>
       )}
     </nav>

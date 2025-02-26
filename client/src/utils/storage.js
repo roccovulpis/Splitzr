@@ -1,7 +1,6 @@
 
 const STORAGE_KEY = "billFormState";
 
-// ✅ Save bill state to local storage
 export const saveBillToStorage = (billState) => {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(billState));
@@ -10,7 +9,6 @@ export const saveBillToStorage = (billState) => {
   }
 };
 
-// ✅ Load bill state from local storage
 export const loadBillFromStorage = () => {
   try {
     const savedState = JSON.parse(localStorage.getItem(STORAGE_KEY));
@@ -21,7 +19,6 @@ export const loadBillFromStorage = () => {
   }
 };
 
-// ✅ Remove bill state from local storage
 export const removeBillFromStorage = () => {
   try {
     localStorage.removeItem(STORAGE_KEY);
