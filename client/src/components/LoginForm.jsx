@@ -15,7 +15,6 @@ export default function LoginForm({ setIsAuthenticated }) {
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // ✅ Automatically switch API URL for local & production
   const API_URL =
     process.env.NODE_ENV === "production"
       ? "https://splitzr-backend.vercel.app/api/auth"

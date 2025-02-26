@@ -70,3 +70,25 @@ export const checkBill = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+export const deleteBill = async (req, res) => {
+  try {
+    const billId = req.params.id;
+    
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized. Please log in." });
+    }
+    
+    // Ensure the bill belongs to the authenticated user
+    const deletedBill = await Bill.findOneAndDelete({ _id: billId, user: req.user.id });
+    
+    if (!deletedBill) {
+      return res.status(404).json({ message: "Bill not found or unauthorized." });
+    }
+    
+    res.status(200).json({ message: "Bill deleted successfully", deletedBill });
+  } catch (error) {
+    console.error("❌ Error deleting bill:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};

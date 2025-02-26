@@ -21,7 +21,6 @@ export default function StoredBillsDisplay() {
         const response = await axios.get("http://localhost:5000/api/bills", {
           headers: { Authorization: `Bearer ${token}` },
         });
-
         setBills(response.data);
       } catch (error) {
         setError("Failed to load bills. Unauthorized.");
@@ -33,5 +32,7 @@ export default function StoredBillsDisplay() {
     fetchBills();
   }, []);
 
-  return loading ? <p>Loading bills...</p> : error ? <p className="error-message">{error}</p> : <StoredBillsList bills={bills} />;
+  if (loading) return <p>Loading bills...</p>;
+  if (error) return <p className="error-message">{error}</p>;
+  return <StoredBillsList bills={bills} />;
 }

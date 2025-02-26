@@ -9,7 +9,6 @@ import MyBills from "./pages/MyBills";
 import SplitBill from "./pages/SplitBill";
 import Navbar from "./components/Navbar";
 
-// ✅ Private Route for authentication
 const PrivateRoute = ({ children, isAuthenticated }) => {
   return isAuthenticated ? children : <Navigate to="/login" />;
 };
@@ -31,6 +30,8 @@ function App() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("bill");
+    localStorage.removeItem("billFormState");
     setIsAuthenticated(false);
     window.location.href = "/login";
   };
@@ -39,18 +40,14 @@ function App() {
     <Router>
       <div id="app-container">
         <Navbar isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
-
         <div id="content">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
             <Route path="/register" element={<Register setIsAuthenticated={setIsAuthenticated} />} />
             <Route path="/split-bill" element={<SplitBill />} />
-
-            {/* ✅ New routes for bill creation & overview */}
             <Route path="/create-bill" element={<CreateBill />} />
             <Route path="/bill-overview" element={<BillOverview />} />
-
             <Route
               path="/my-bills"
               element={

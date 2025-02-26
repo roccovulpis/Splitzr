@@ -1,37 +1,53 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ItemList from "../components/ItemList";
 import ActionPanel from "../components/ActionPanel";
 import EvenSplitPanel from "../components/EvenSplitPanel";
-import { loadBillFromStorage, saveBillToStorage, resetStoredBill } from "../utils/localStorageUtils";
+import { loadBillFromStorage, resetStoredBill } from "../utils/localStorageUtils";
 import "../styles/BillOverview.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function BillOverview() {
   const navigate = useNavigate();
-  const [bill, setBill] = useState(null);
+  const { state: navState } = useLocation();
+  const [bill, setBill] = useState(navState?.selectedBill || null);
   const [splitOption, setSplitOption] = useState(null);
   const [people, setPeople] = useState([]);
   const [isBillSubmitted, setIsBillSubmitted] = useState(false);
 
   useEffect(() => {
-    const savedBill = loadBillFromStorage();
-    if (savedBill) {
-      // Check if required fields are missing
-      if (!savedBill.event || !savedBill.eventDate || !savedBill.items || savedBill.items.length < 1) {
+    if (!bill) {
+      const savedBill = loadBillFromStorage();
+      if (savedBill) {
+        if (
+          !savedBill.event ||
+          !savedBill.eventDate ||
+          !savedBill.items ||
+          savedBill.items.length < 1
+        ) {
+          window.alert(
+            "Bill is missing required details. Please ensure you have entered an event name, selected an event date, and added at least one item."
+          );
+          navigate("/create-bill");
+          return;
+        }
+        setBill(savedBill);
+        checkIfBillExists(savedBill);
+      } else {
+        navigate("/create-bill");
+      }
+    } else {
+      if (!bill.event || !bill.eventDate || !bill.items || bill.items.length < 1) {
         window.alert(
           "Bill is missing required details. Please ensure you have entered an event name, selected an event date, and added at least one item."
         );
         navigate("/create-bill");
         return;
       }
-      setBill(savedBill);
-      checkIfBillExists(savedBill);
-    } else {
-      navigate("/create-bill");
+      checkIfBillExists(bill);
     }
-  }, [navigate]);
+  }, [bill, navigate]);
 
   const checkIfBillExists = async (bill) => {
     try {
@@ -43,9 +59,9 @@ export default function BillOverview() {
       }
       const response = await fetch(`${API_BASE_URL}/bills/check`, {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify({ event_name: bill.event, event_date: bill.eventDate }),
       });
@@ -58,9 +74,12 @@ export default function BillOverview() {
     }
   };
 
+  // Updated editBill function: passes the edited bill via navigation state.
   const editBill = () => {
-    setBill((prev) => ({ ...prev, isBillSubmitted: false }));
-    navigate("/create-bill");
+    const updatedBill = { ...bill, isBillSubmitted: false };
+    localStorage.setItem("bill", JSON.stringify(updatedBill));
+    setBill(updatedBill);
+    navigate("/create-bill", { state: { editedBill: updatedBill } });
   };
 
   const handleSplitOption = (option) => {
@@ -88,22 +107,25 @@ export default function BillOverview() {
         window.alert("You are not logged in. Please log in and try again.");
         return false;
       }
-  
+      
+      const payload = {
+        event_name: bill.event,
+        event_date: bill.eventDate,
+        items: bill.items.map(({ name, price, quantity }) => ({
+          item: name,
+          price,
+          quantity,
+        })),
+      };
+      console.log("Sending payload:", payload);
+      
       const response = await fetch(`${API_BASE_URL}/bills/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          event_name: bill.event,
-          event_date: bill.eventDate,
-          items: bill.items.map(({ name, price, quantity }) => ({
-            item: name,
-            price,
-            quantity,
-          })),
-        }),
+        body: JSON.stringify(payload),
       });
   
       if (response.ok) {
@@ -112,12 +134,13 @@ export default function BillOverview() {
         return true;
       } else {
         const errorData = await response.json();
-        window.alert(`Error adding bill: ${errorData.message || "Unauthorized"}`);
+        console.error("Error response from API:", errorData);
+        window.alert(`Error adding bill: ${errorData.message || "Internal Server Error"}`);
         return false;
       }
     } catch (error) {
-      window.alert("Failed to add bill.");
       console.error("API error:", error);
+      window.alert("Failed to add bill.");
       return false;
     }
   };
@@ -133,11 +156,14 @@ export default function BillOverview() {
     }
   };
 
+  if (!bill) {
+    return <div>Loading bill...</div>;
+  }
+
   return (
     <>
       <h1 className="overview-heading">Overview</h1>
       <div className="bill-overview-container">
-      {bill ? (
         <div className="bill-overview-content">
           <div className="bill-overview-panel">
             <h2>{bill.event}</h2>
@@ -156,24 +182,18 @@ export default function BillOverview() {
                 onCancel={handleCancelSplit}
               />
             ) : (
-              bill.isConfirmed && (
-                <ActionPanel
-                  editBill={editBill}
-                  handleSplitOption={handleSplitOption}
-                  handleAddBill={handleAddBill}
-                  handleDeleteBill={handleDeleteBill}
-                  isBillSubmitted={isBillSubmitted}
-                  setBill={setBill}
-                />
-              )
+              <ActionPanel
+                editBill={editBill}
+                handleSplitOption={handleSplitOption}
+                handleAddBill={handleAddBill}
+                handleDeleteBill={handleDeleteBill}
+                isBillSubmitted={isBillSubmitted}
+                setBill={setBill}
+              />
             )}
           </div>
         </div>
-      ) : (
-        <h2>No submitted bills found.</h2>
-      )}
-    </div>
+      </div>
     </>
-    
   );
 }
