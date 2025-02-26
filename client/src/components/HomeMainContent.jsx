@@ -24,9 +24,12 @@ const HomeMainContent = () => {
           </Suspense>
         </div>
 
-        <button id="home-split-btn">
-          <Link to="/create-bill">Start Splitting Now</Link>
-        </button>
+        <Link to="/create-bill">
+          <button id="home-split-btn">
+            Start Splitting Now
+          </button>
+        </Link>
+
       </div>
 
       <MemoizedCarousel />
