@@ -9,7 +9,8 @@ export default function DeleteBillButton({ billId, setBill }) {
 
   const handleDelete = async () => {
     if (!billId) {
-      console.error("No bill ID provided for deletion.");
+      console.error("DeleteBillButton: No bill ID provided for deletion.");
+      window.alert("Error: Bill ID is missing. Cannot delete bill.");
       return;
     }
 
@@ -44,7 +45,7 @@ export default function DeleteBillButton({ billId, setBill }) {
           window.alert(`Error deleting bill: ${responseData.message || "Unknown error"}`);
         }
       } catch (error) {
-        console.error("Delete API error:", error);
+        console.error("DeleteBillButton: API error:", error);
         window.alert("Failed to delete bill.");
       }
     }

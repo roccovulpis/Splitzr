@@ -8,10 +8,12 @@ export default function StoredBillsList({ bills }) {
 
   const handleBillClick = (bill) => {
     const normalizedBill = {
-      event: bill.event || bill.event_name,
-      eventDate: bill.eventDate || bill.event_date,
-      items: bill.items,
+      _id: bill._id,
+      event: (bill.event || bill.event_name || "").trim(),
+      eventDate: bill.eventDate || bill.event_date || "",
+      items: bill.items || [],
     };
+    console.log("Normalized Bill:", normalizedBill);
     navigate("/bill-overview", { state: { selectedBill: normalizedBill } });
   };
   

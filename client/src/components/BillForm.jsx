@@ -43,18 +43,14 @@ export default function BillForm() {
 
   const confirmBill = (e) => {
     e.preventDefault();
-    // Perform custom validations
     if (!validateForm()) {
-      // If validation fails, stop the submission.
       return;
     }
-    // Optionally, also trigger native HTML5 validation if inputs are present
     if (formRef.current && !formRef.current.checkValidity()) {
       formRef.current.reportValidity();
       return;
     }
-
-    // If all validations pass, update state and navigate.
+    
     const newBill = {
       ...state,
       isConfirmed: true,
