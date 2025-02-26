@@ -25,6 +25,11 @@ export default function BillOverview() {
       ...billObj,
       event: billObj.event || billObj.event_name || "",
       eventDate: billObj.eventDate || billObj.event_date || "",
+      items: billObj.items.map((i) => ({
+        name: i.name || i.item || "",
+        price: i.price,
+        quantity: i.quantity,
+      })),
     };
   };
 
@@ -80,7 +85,7 @@ export default function BillOverview() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           event_name: billObj.event,
@@ -153,7 +158,7 @@ export default function BillOverview() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       });
@@ -199,7 +204,7 @@ export default function BillOverview() {
         <div className="bill-overview-content">
           <div className="bill-overview-panel">
             <h2>{bill.event}</h2>
-            <h3>{bill.eventDate}</h3>
+            <h3>{new Date(bill.eventDate).toLocaleDateString()}</h3>
             <ItemList items={bill.items} hideButtons={true} />
             <h3>
               Total: $

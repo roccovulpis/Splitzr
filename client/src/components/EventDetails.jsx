@@ -30,7 +30,10 @@ export default function EventDetails({ event, eventDate, setEvent, setEventDate,
     </>
   ) : (
     <div className="event-summary">
-      <h2>{event} (Date: {eventDate})</h2>
+      <h2>
+        {event} (Date: {new Date(eventDate).toLocaleDateString()})
+      </h2>
+
 
       {/* Hide the edit button after confirmation */}
       {!isConfirmed && (

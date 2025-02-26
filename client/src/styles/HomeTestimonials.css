@@ -1,6 +1,6 @@
 /* Testimonials Section */
 #testimonials-container {
-    background: rgba(255, 255, 255, 0.1); /* Subtle background */
+    background: rgba(255, 255, 255, 0.1); 
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -28,14 +28,14 @@ export default function EvenSplitPanel({ total, setPeople, onDone, onCancel }) {
   function handleCancel() {
     console.log("Cancel button clicked");
     if (onCancel) {
-      onCancel(); 
+      onCancel();
     }
   }
 
   function handleDone() {
     console.log("Done button clicked, people:", splitAmounts);
     if (onDone) {
-      onDone(splitAmounts); 
+      onDone(splitAmounts);
     }
   }
 
@@ -65,8 +65,10 @@ export default function EvenSplitPanel({ total, setPeople, onDone, onCancel }) {
               <p key={index}>{person.name}: ${person.amount}</p>
             ))}
           </div>
-          <button onClick={editAmount}>Edit</button>
-          <button onClick={handleDone}>Done</button> 
+          <div>
+            <button onClick={editAmount}>Edit</button>
+            <button onClick={handleDone}>Done</button>
+          </div>
         </>
       )}
     </div>

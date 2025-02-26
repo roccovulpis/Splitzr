@@ -109,8 +109,6 @@ export default function LoginForm({ setIsAuthenticated }) {
         /><br />
         
         <span className='login-span'>
-          <input type="checkbox" className='remember' name='remember' />
-          <label className='remember-label' htmlFor="remember">Remember Me</label>
           <a className='forgot' href="#">Forgot Password?</a>
         </span>
         
