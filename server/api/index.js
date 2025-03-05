@@ -16,14 +16,12 @@ connectDB();
 
 const app = express();
 
-// ✅ CORRECT CORS SETUP
 const allowedOrigins = [
   "http://localhost:5173",
   "https://splitzr.vercel.app",
   "https://splitzr-backend.vercel.app"  
 ];
 
-// ✅ Use CORS Middleware Before Routes
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -39,7 +37,6 @@ app.use(
   })
 );
 
-// ✅ Handle Preflight Requests (IMPORTANT for Vercel)
 app.options("*", (req, res) => {
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
@@ -52,20 +49,16 @@ app.options("*", (req, res) => {
   return res.status(403).json({ message: "CORS Not Allowed" });
 });
 
-// ✅ Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/bills", billRoutes);
 
-// ✅ Handle 404 for Unknown Routes
 app.use((req, res) => {
   res.status(404).json({ error: "Not Found" });
 });
 
-// ✅ Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);

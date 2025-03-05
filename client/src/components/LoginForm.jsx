@@ -17,7 +17,7 @@ export default function LoginForm({ setIsAuthenticated }) {
 
   const API_URL =
     process.env.NODE_ENV === "production"
-      ? "https://splitzr-backend.vercel.app/api/auth"
+      ? "https://splitzr-server.vercel.app/api/auth"
       : "http://localhost:5000/api/auth"; // Local development
 
   // Handle input change
