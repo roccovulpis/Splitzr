@@ -15,7 +15,10 @@ export default function LoginForm({ setIsAuthenticated }) {
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+  const API_URL =
+    process.env.NODE_ENV === "production"
+      ? "https://splitzr-backend.vercel.app/api/auth"
+      : "http://localhost:5000/api/auth"; // Local development
 
   // Handle input change
   const handleChange = (e) => {
