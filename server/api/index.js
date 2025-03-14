@@ -7,20 +7,24 @@ import connectDB from "../config/db.js";
 import authRoutes from "../routes/authRoutes.js";
 import billRoutes from "../routes/billRoutes.js";
 
+// ✅ Get __dirname in ES module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
+// ✅ Load environment variables (Railway handles env variables automatically)
+dotenv.config();
 
+// ✅ Connect to MongoDB
 connectDB();
 
 const app = express();
 
-// ✅ CORRECT CORS SETUP
+// ✅ Allow CORS from frontend URLs
 const allowedOrigins = [
   "http://localhost:5173",
   "https://splitzr.vercel.app",
-  "https://splitzr-backend.vercel.app"  
+  "https://splitzr-backend.vercel.app",
+  "https://splitzr-production.up.railway.app" // ✅ Added Railway backend URL
 ];
 
 // ✅ Use CORS Middleware Before Routes
@@ -39,7 +43,7 @@ app.use(
   })
 );
 
-// ✅ Handle Preflight Requests (IMPORTANT for Vercel)
+// ✅ Handle Preflight Requests (IMPORTANT for Vercel & Railway)
 app.options("*", (req, res) => {
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
@@ -52,20 +56,28 @@ app.options("*", (req, res) => {
   return res.status(403).json({ message: "CORS Not Allowed" });
 });
 
-// ✅ Middleware
+// ✅ Middleware for Parsing JSON and URL-Encoded Data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// ✅ Root Route (Fixes 404 on Railway)
+app.get("/", (req, res) => {
+  res.send("Backend is running! 🚀");
+});
+
+// ✅ Fix 404 Error for /favicon.ico (Prevents Console Errors)
+app.get("/favicon.ico", (req, res) => res.status(204).end());
 
 // ✅ API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/bills", billRoutes);
 
-// ✅ Handle 404 for Unknown Routes
+// ✅ 404 Handler (Unknown Routes)
 app.use((req, res) => {
   res.status(404).json({ error: "Not Found" });
 });
 
-// ✅ Start Server
+// ✅ Start Server (PORT is auto-assigned by Railway)
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
