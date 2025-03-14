@@ -15,10 +15,8 @@ export default function LoginForm({ setIsAuthenticated }) {
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const API_URL =
-    process.env.NODE_ENV === "production"
-      ? "https://splitzr-backend.vercel.app/api/auth"
-      : "http://localhost:5000/api/auth"; // Local development
+  // ✅ Use environment variable for API base URL
+  const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   // Handle input change
   const handleChange = (e) => {
@@ -32,10 +30,13 @@ export default function LoginForm({ setIsAuthenticated }) {
     setSuccessMessage("");
     setLoading(true);
 
-    console.log("🔵 Sending login request to:", API_URL);
+    console.log("🔵 Sending login request to:", `${API_URL}/api/auth/login`);
 
     try {
-      const response = await axios.post(`${API_URL}/login`, formData);
+      const response = await axios.post(`${API_URL}/api/auth/login`, formData, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true, // ✅ Ensures cookies are sent (if needed)
+      });
 
       console.log("🟢 Login Response:", response.data);
 
