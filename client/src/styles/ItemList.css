@@ -1,12 +1,12 @@
 /* Preserve item list layout */
 .added-items {
     overflow-y: auto;
-    width: 100%; /* Make it fill its container */
+    width: 100%; 
     display: flex;
     flex-direction: column;
-    max-height: 400px;
-    min-height: 400px;
-    align-items: center; /* Ensures proper centering */
+    max-height: 390px;
+    min-height: 350px;
+    align-items: center; 
     margin: auto;
     padding: 0 10px; /* Ensures proper spacing inside */
     box-sizing: border-box;
