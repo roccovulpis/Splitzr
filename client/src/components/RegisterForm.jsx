@@ -19,8 +19,8 @@ export default function RegisterForm({ setIsAuthenticated }) {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  // Base API URL (use environment variable for deployment)
-  const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api/auth";
+  // ✅ Use environment variable for API base URL
+  const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   // Handle input changes
   const handleChange = (e) => {
@@ -44,12 +44,15 @@ export default function RegisterForm({ setIsAuthenticated }) {
       password: formData.password,
     };
 
-    console.log("🔵 Sending registration request:", userData);
+    console.log("🔵 Sending registration request to:", `${API_URL}/api/auth/register`);
 
     try {
-      const response = await axios.post(`${API_URL}/register`, userData);
-      
-      console.log("🟢 Registration Response:", response.data); // Log full response
+      const response = await axios.post(`${API_URL}/api/auth/register`, userData, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true, 
+      });
+
+      console.log("🟢 Registration Response:", response.data);
 
       if (!response.data.token) {
         throw new Error("Token is missing from response"); // Handle missing token

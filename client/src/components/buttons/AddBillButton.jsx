@@ -9,10 +9,10 @@ export default function AddBillButton({ onClick, isBillSubmitted, disabled }) {
     try {
       const success = await onClick();
       if (success) {
-        console.log("Bill successfully added.");
+        console.log("🟢 Bill successfully added.");
       }
     } catch (error) {
-      console.error("Error adding bill:", error);
+      console.error("🔴 Error adding bill:", error);
     } finally {
       setIsSubmitting(false);
     }
