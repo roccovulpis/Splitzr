@@ -24,7 +24,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://splitzr.vercel.app",
   "https://splitzr-backend.vercel.app",
-  "https://splitzr-production.up.railway.app" // ✅ Added Railway backend URL
+  "https://splitzr-production.up.railway.app" 
 ];
 
 // ✅ Use CORS Middleware Before Routes
