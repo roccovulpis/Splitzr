@@ -21,10 +21,9 @@ const app = express();
 
 // ✅ Allow CORS from frontend URLs
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://splitzr.vercel.app",
-  "https://splitzr-backend.vercel.app",
-  "https://splitzr-production.up.railway.app" 
+  "http://localhost:5173", // Local development
+  "https://splitzr.vercel.app", // Vercel frontend
+  "https://splitzr-production.up.railway.app" // Railway backend
 ];
 
 // ✅ Use CORS Middleware Before Routes
